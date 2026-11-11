@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR" data-calculadora="modelos">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self' 'sha256-sLACZdNvvImecD3jDfX6ALzblzXZqerZgwS479PYsjw='; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gere minutas editáveis a partir de um cálculo salvo, sem enviar dados para fora do navegador.">
+  <link rel="icon" href="../icons/icon32.png">
+  <link rel="stylesheet" href="../calc.css">
+  <link rel="stylesheet" href="../compartilhado.css">
+  <script src="../tema.js"></script>
+  <script src="../dados-casos.js"></script>
+  <script src="../privacidade-ui.js"></script>
+  <script src="../dados/modulos-provisorios.js" defer></script>
+  <script src="../piloto.js" defer></script>
+  <script src="../dados/eras.js" defer></script>
+  <script src="../dados/fracoes-progressao.js" defer></script>
+  <script src="../dados/fracoes-livramento.js" defer></script>
+  <script src="../dados/vedacoes.js" defer></script>
+  <script src="../dados/decretos/2024.js" defer></script>
+  <script src="../dados/decretos/2025.js" defer></script>
+  <script src="../dados/decretos.js" defer></script>
+  <script src="../dados/natureza.js" defer></script>
+  <script src="../dados/index.js" defer></script>
+  <script src="../regras.js" defer></script>
+  <script src="gerador.js" defer></script>
+  <script src="exemplo.js" defer></script>
+  <script src="pagina.js" defer></script>
+  <title>Minutas editáveis · Calculadora de Execução Penal</title>
+  <style>
+    body { max-width: 62rem; margin: 0 auto; padding: 1.25rem; line-height: 1.5; }
+    main { padding-block: 1rem 3rem; }
+    label { display: block; margin: 1rem 0 .35rem; font-weight: 700; }
+    input, select, textarea, button { box-sizing: border-box; font: inherit; }
+    input, select, textarea { width: 100%; }
+    textarea { min-height: 28rem; padding: .8rem; }
+    .acoes { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: 1rem; }
+    .acoes button { margin: 0; }
+    .aviso { padding: .75rem; border-left: 4px solid var(--alerta); background: var(--revisao-fundo); }
+    .conferir { padding: .5rem; border-left: 4px solid var(--alerta); background: var(--revisao-fundo); font-weight: 700; }
+    [hidden] { display: none !important; }
+    @media print {
+      body { max-width: none; padding: 0; }
+      body > :not(main) { display: none !important; }
+      main > :not(.painel) { display: none !important; }
+      .painel > :not(#resultado) { display: none !important; }
+      #resultado { border: 0; min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <img class="logo-topo" src="../icons/logo-dpesp.png" alt="Defensoria Pública do Estado de São Paulo">
+      <div class="marca-texto"><h1>Calculadora de Execução Penal</h1></div>
+    </div>
+    <div class="topo-dir">
+      <button type="button" class="q-btn-flat btn-tema" id="btnTema" title="Tema da tela: automático, claro ou escuro">
+        <span id="rotuloTema">Automático</span>
+      </button>
+    </div>
+  </header>
+  <nav class="nav-calc" aria-label="Calculadoras">
+    <a href="../index.html#condenacoes">Execução</a>
+    <a href="../index.html#projecao">Projeção</a>
+    <a href="../index.html#conferir-atestado">Conferir atestado</a>
+    <a href="../importar.html">Importar documentos</a>
+    <a href="../radar.html">Radar</a>
+    <a href="../ferramentas.html">Ferramentas</a>
+    <a href="index.html" aria-current="page">Minutas</a>
+  </nav>
+  <main>
+    <section class="painel">
+      <div class="cartao-cab">
+        <div>
+          <p class="rotulo-secao">Documentos locais</p>
+          <h2>Minutas editáveis</h2>
+        </div>
+      </div>
+      <p class="aviso">O arquivo escolhido e o texto ficam somente neste aparelho. A minuta é um rascunho: confira dados, requisitos, documentos e fundamentos antes de usar.</p>
+      <label for="arquivo">Abrir cálculo salvo (.calcpen)</label>
+      <input id="arquivo" type="file" accept=".calcpen,.json,application/json">
+      <p id="aviso-exemplo" class="ajuda" role="status">Prévia com dados fictícios de exemplo. Abra um cálculo salvo para gerar uma minuta do caso.</p>
+      <label for="modelo">Tipo de minuta</label>
+      <select id="modelo">
+        <option value="pedido-progressao.md">Progressão de regime</option>
+        <option value="pedido-livramento.md">Livramento condicional</option>
+        <option value="pedido-saida-temporaria.md">Saída temporária</option>
+        <option value="pedido-detracao-horas.md">Detração por horas</option>
+        <option value="impugnacao-calculo.md">Divergência na conferência</option>
+        <option value="pedido-remicao.md">Remição</option>
+        <option value="folha-assistido.md">Folha para a pessoa assistida</option>
+        <option value="pedido-indulto.md" data-piloto-modulo="E70" disabled>Indulto/comutação · a conferir</option>
+        <option value="pedido-prescricao.md" data-piloto-modulo="E80" disabled>Prescrição · a conferir</option>
+      </select>
+      <label for="juizo">Juízo da execução</label>
+      <input id="juizo" type="text" autocomplete="off">
+      <div class="acoes">
+        <button id="gerar" class="q-btn" type="button">Atualizar minuta</button>
+        <button id="copiar" class="q-btn q-btn-outline" type="button">Copiar texto</button>
+        <button id="baixar-docx" class="q-btn q-btn-outline" type="button">Baixar DOCX</button>
+        <button id="baixar-html" class="q-btn q-btn-outline" type="button">Baixar HTML</button>
+        <button id="imprimir" class="q-btn q-btn-outline" type="button">Imprimir / salvar PDF</button>
+      </div>
+      <p id="mensagem" role="status" aria-live="polite"></p>
+      <label for="resultado">Texto editável</label>
+      <textarea id="resultado" spellcheck="true" aria-describedby="ajuda"></textarea>
+      <p id="ajuda" class="ajuda">Edite o texto antes de copiar ou exportar. Campos sem informação suficiente permanecem indicados para revisão.</p>
+    </section>
+  </main>
+</body>
+</html>

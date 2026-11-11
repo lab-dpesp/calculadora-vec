@@ -1,0 +1,83 @@
+[
+  {
+    "chave": "dados-processo",
+    "titulo": "Dados do processo",
+    "variacoes": []
+  },
+  {
+    "chave": "dados-pessoais",
+    "titulo": "Dados pessoais",
+    "variacoes": [
+      "Dados pessoais (resumido)"
+    ]
+  },
+  {
+    "chave": "dados-sentenca",
+    "titulo": "Dados da sentença",
+    "variacoes": []
+  },
+  {
+    "chave": "processos-somados",
+    "titulo": "Processos somados",
+    "variacoes": []
+  },
+  {
+    "chave": "dados-prisao",
+    "titulo": "Dados da prisão",
+    "variacoes": [
+      "Dados da prisão/Aguardando internação"
+    ]
+  },
+  {
+    "chave": "periodos-prisao",
+    "titulo": "Períodos de prisão considerados",
+    "variacoes": []
+  },
+  {
+    "chave": "livramento-condicional",
+    "titulo": "Livramento condicional",
+    "variacoes": []
+  },
+  {
+    "chave": "acompanhamento-sursis",
+    "titulo": "Acompanhamento do sursis",
+    "variacoes": []
+  },
+  {
+    "chave": "remicao",
+    "titulo": "Remição",
+    "variacoes": []
+  },
+  {
+    "chave": "historico-regimes",
+    "titulo": "Histórico de regimes de prisão",
+    "variacoes": []
+  },
+  {
+    "chave": "faltas-disciplinares",
+    "titulo": "Faltas disciplinares",
+    "variacoes": []
+  },
+  {
+    "chave": "outros-processos",
+    "titulo": "Outros processos em andamento",
+    "variacoes": []
+  },
+  {
+    "chave": "controle-pena",
+    "titulo": "Controle de pena",
+    "variacoes": [
+      "Controle de pena (situação em {data})"
+    ]
+  },
+  {
+    "chave": "prescricao-pretensao-punitiva",
+    "titulo": "Controle de prescrição da pretensão punitiva",
+    "variacoes": []
+  },
+  {
+    "chave": "prescricao-pretensao-executoria",
+    "titulo": "Controle de prescrição da pretensão executória",
+    "variacoes": []
+  }
+]

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <script src="../dados-casos.js"></script>
+  <script src="../privacidade-ui.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-JzzWmke9QYpkHZPk6/GTA3YKFABA0RDailP1mzx4rJQ='; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self' 'sha256-9THMYB1mBn68JhNCLjHBgncrt9LbiFiJvrdf9IWJWyM=' 'sha256-mfachCusvcn2I0GetY19dHbZexZF6y8MiMBFSl92MIE='; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conferência embutida — demonstração</title>
+  <link rel="icon" type="image/png" href="../icons/icon32.png">
+  <link rel="stylesheet" href="../calc.css">
+  <style>
+    main { max-width:1100px; margin:auto; padding:16px; }
+    textarea { width:100%; min-height:240px; }
+    .cartao-acoes { display:flex; flex-wrap:wrap; gap:12px; align-items:end; margin:16px 0; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Conferência embutida</h1>
+    <p>Exemplo inteiramente fictício. Triagem local, sem envio ou armazenamento de dados.
+      Para documentos, cole texto já extraído; não recebe PDF.</p>
+    <form id="demonstracao" class="painel">
+      <label class="q-campo">Entrada
+        <select id="tipo">
+          <option value="JSON">calcpen v1 (JSON)</option>
+          <option value="SEEU">Texto do SEEU</option>
+          <option value="TJSP">Texto do TJSP/SAJ</option>
+        </select>
+      </label>
+      <label class="q-campo" for="entrada">Dados fictícios ou texto do documento</label>
+      <textarea id="entrada" spellcheck="false"></textarea>
+      <div class="cartao-acoes">
+        <label class="q-campo">Data do cálculo
+          <input id="data" type="date" value="2026-11-09">
+        </label>
+        <button class="q-btn" type="submit">Conferir</button>
+      </div>
+    </form>
+    <calc-conferencia id="conferencia"></calc-conferencia>
+    <details>
+      <summary>JSON do evento resultado</summary>
+      <pre id="saida"></pre>
+    </details>
+  </main>
+  <script src="../dados/eras.js"></script>
+  <script src="../dados/fracoes-progressao.js"></script>
+  <script src="../dados/fracoes-livramento.js"></script>
+  <script src="../dados/vedacoes.js"></script>
+  <script src="../dados/decretos/2024.js"></script>
+  <script src="../dados/decretos/2025.js"></script>
+  <script src="../dados/decretos.js"></script>
+  <script src="../dados/natureza.js"></script>
+  <script src="../dados/modulos-provisorios.js"></script>
+  <script src="../dados/index.js"></script>
+  <script src="../core/leitura-texto.js"></script>
+  <script src="../core/natureza.js"></script>
+  <script src="../core/leitores/versoes-documentos.js"></script>
+  <script src="../core/leitores/calculo-pena.js"></script>
+  <script src="../core/leitores/tjsp-calculo.js"></script>
+  <script src="../core/regras.js"></script>
+  <script src="../core/datas.js"></script>
+  <script src="../core/engine.js"></script>
+  <script src="../core/explicador.js"></script>
+  <script src="../core/leitores/seeu-relatorio.js"></script>
+  <script src="../dados/movimentos-execucao.js"></script>
+  <script src="../core/leitores/processo.js"></script>
+  <script src="../core/indulto.js"></script>
+  <script src="../core/index.js"></script>
+  <script src="../ui/textos.js"></script>
+  <script src="calc-conferencia.js"></script>
+  <script>
+    "use strict";
+    const componente = document.getElementById("conferencia");
+    const entrada = document.getElementById("entrada");
+    entrada.value = JSON.stringify({
+      formato: "calcpen", versao: 1,
+      condenacoes: [{
+        id: "c1", dataFato: "2021-03-10", pena: { anos: 1, meses: 0, dias: 0 },
+        natureza: "comum", reincidencia: "primario", bonsAntecedentes: true
+      }],
+      prisoes: [{ inicio: "2026-01-01", fim: null, tipo: "definitiva" }],
+      regimeAtual: "fechado",
+      atestadoSEEU: { progressao: "2026-03-01", livramento: "2026-05-01" }
+    }, null, 2);
+    componente.addEventListener("resultado", function (evento) {
+      document.getElementById("saida").textContent = JSON.stringify(evento.detail, null, 2);
+    });
+    document.getElementById("demonstracao").addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      const tipo = document.getElementById("tipo").value;
+      componente.dataCalculo = document.getElementById("data").value;
+      componente.texto = tipo === "JSON" ? "" : entrada.value;
+      componente.calcpen = tipo === "JSON" ? entrada.value : null;
+      componente.setAttribute("tipo-documento", tipo === "JSON" ? "SEEU" : tipo);
+    });
+    document.getElementById("demonstracao").requestSubmit();
+  </script>
+</body>
+</html>
