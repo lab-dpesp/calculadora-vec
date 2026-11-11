@@ -1,0 +1,28 @@
+{
+  "pdfjs": {
+    "pacote": "pdfjs-dist",
+    "versao": "6.5.438",
+    "origem": "https://www.npmjs.com/package/pdfjs-dist/v/6.5.438",
+    "repositorio": "https://github.com/mozilla/pdf.js",
+    "arquivos": ["pdfjs/pdf.mjs", "pdfjs/pdf.worker.mjs"],
+    "distribuicao": "legacy/build, sem alterações",
+    "licenca": "Apache-2.0",
+    "texto": "pdfjs/LICENSE"
+  },
+  "figtree": {
+    "origem": "https://github.com/lab-dpesp/calculadora/tree/d498dcc71b393669c74b5ff092ad4de7260abdbc/fonts",
+    "licenca": "OFL-1.1",
+    "texto": "../fonts/OFL.txt"
+  },
+  "componentesCivel": {
+    "origem": "https://github.com/lab-dpesp/calculadora/tree/d498dcc71b393669c74b5ff092ad4de7260abdbc",
+    "arquivos": ["../compartilhado.css", "../compartilhado.js", "../calc.css", "../tema.js", "../icons/logo-dpesp.png"],
+    "fundamento": "Reutilização institucional expressamente autorizada em .github/copilot-instructions.md e docs/IDENTIDADE-VISUAL.md; o repositório de origem não declara licença geral.",
+    "adaptacao": "tema.js: removida a detecção de extensão; esta aplicação é exclusivamente web."
+  },
+  "conferenciaCopilot": {
+    "origem": "https://github.com/DPESP-Labs/calculadora-execucao-penal/pull/41",
+    "revisao": "913d5d5f2ca4582528803d2e3ade7af195fd1df9",
+    "adaptacao": "API carregar e origens por campo para a conferência de importações locais."
+  }
+}

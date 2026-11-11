@@ -1,0 +1,1245 @@
+{
+ "meta": {
+  "versao": "2026.11.1",
+  "conferidoEm": "2026-11-04",
+  "conferidoPor": "Claude (IA) — aguarda revisão humana no PR",
+  "convencoes": "penas em {anos, meses}; 'desde' = data de início de vigência; fatos anteriores usam a versão anterior; frações como string 'n/d'",
+  "aviso": "Versões marcadas conferido=false vêm de memória e precisam de conferência. Estatuto do Desarmamento ainda não conferido (PDF indisponível).",
+  "datasAntigas": "Datas 'desde' anteriores a 2024 (e '1940-01-01' = redação original) são indicativas; as mudanças de 2024–2026 foram conferidas no texto consolidado. Hediondez de cada forma: conferir no art. 1º da Lei 8.072 (rol com datas em REGRAS/base de hediondez)."
+ },
+ "tipos": [
+  {
+   "id": "furto",
+   "artigo": "CP 155, caput",
+   "nome": "Furto",
+   "sinonimos": [
+    "155",
+    "subtração"
+   ],
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": "2026-05-03",
+     "min": {
+      "a": 1
+     },
+     "max": {
+      "a": 4
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2026-05-04",
+     "ate": null,
+     "min": {
+      "a": 1
+     },
+     "max": {
+      "a": 6
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 15.397/2026"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "furto-noturno",
+     "texto": "repouso noturno (§ 1º)",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": "2026-05-03",
+       "fracao": "1/3",
+       "conferido": false
+      },
+      {
+       "desde": "2026-05-04",
+       "fracao": "1/2",
+       "conferido": true
+      }
+     ]
+    }
+   ],
+   "minorantes": [
+    {
+     "id": "furto-privilegiado",
+     "texto": "primário e coisa de pequeno valor (§ 2º): reduzir de 1/3 a 2/3, trocar por detenção ou só multa",
+     "fracaoMin": "1/3",
+     "fracaoMax": "2/3"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "furto-qualificado",
+     "texto": "§ 4º: rompimento de obstáculo, abuso de confiança, fraude, escalada, destreza, chave falsa, concurso de pessoas, bens de serviços essenciais",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 2
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "furto-explosivo",
+     "texto": "§ 4º-A: emprego de explosivo",
+     "hediondoDesde": "2020-01-23",
+     "versoes": [
+      {
+       "desde": "2018-04-24",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 10
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 13.654/2018"
+      }
+     ]
+    },
+    {
+     "id": "furto-fraude-eletronica",
+     "texto": "§ 4º-B: fraude por dispositivo eletrônico",
+     "versoes": [
+      {
+       "desde": "2021-05-28",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 10
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 14.155/2021; § 4º-C traz aumentos"
+      }
+     ]
+    },
+    {
+     "id": "furto-veiculo-outro-estado",
+     "texto": "§ 5º: veículo levado a outro Estado ou ao exterior",
+     "versoes": [
+      {
+       "desde": "1996-12-26",
+       "ate": "2026-05-03",
+       "min": {
+        "a": 3
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": false,
+       "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+      },
+      {
+       "desde": "2026-05-04",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 10
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 15.397/2026"
+      }
+     ]
+    },
+    {
+     "id": "furto-semovente",
+     "texto": "§ 6º: semovente domesticável de produção",
+     "versoes": [
+      {
+       "desde": "2016-08-03",
+       "ate": "2026-05-03",
+       "min": {
+        "a": 2
+       },
+       "max": {
+        "a": 5
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": false,
+       "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+      },
+      {
+       "desde": "2026-05-04",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 10
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 15.397/2026"
+      }
+     ]
+    },
+    {
+     "id": "furto-cabos",
+     "texto": "§ 8º: fios, cabos, equipamentos de energia, telefonia, dados, ferrovia",
+     "versoes": [
+      {
+       "desde": "2025-07-29",
+       "ate": null,
+       "min": {
+        "a": 2
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 15.181/2025 — conferir data de vigência"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "roubo",
+   "artigo": "CP 157",
+   "nome": "Roubo",
+   "sinonimos": [
+    "157",
+    "assalto"
+   ],
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": "2026-05-03",
+     "min": {
+      "a": 4
+     },
+     "max": {
+      "a": 10
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2026-05-04",
+     "ate": null,
+     "min": {
+      "a": 6
+     },
+     "max": {
+      "a": 10
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 15.397/2026"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "roubo-p2",
+     "texto": "§ 2º (1/3 até metade): concurso de pessoas; transporte de valores; veículo para outro Estado; vítima em poder do agente (V, hediondo desde 2020-01-23); explosivos; arma branca (VII, desde 2020-01-23); cabos (VIII, desde 2025); celular/computador (IX, desde 2026-05-04); arma de fogo subtraída (X, desde 2026-05-04); combustíveis (XI, Lei 15.517/2026 — conferir vigência)",
+     "fracaoMin": "1/3",
+     "fracaoMax": "1/2"
+    },
+    {
+     "id": "roubo-arma-fogo",
+     "texto": "§ 2º-A, I: arma de fogo",
+     "fracaoMin": "2/3",
+     "fracaoMax": "2/3",
+     "hediondoDesde": "2020-01-23",
+     "desde": "2018-04-24"
+    },
+    {
+     "id": "roubo-arma-restrita",
+     "texto": "§ 2º-B: arma de fogo de uso restrito ou proibido (pena em dobro)",
+     "fracaoMin": "1/1",
+     "fracaoMax": "1/1",
+     "hediondoDesde": "2020-01-23",
+     "desde": "2020-01-23"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "roubo-lesao-grave",
+     "texto": "§ 3º, I: lesão grave",
+     "hediondoDesde": "2020-01-23",
+     "versoes": [
+      {
+       "desde": "2018-04-24",
+       "ate": null,
+       "min": {
+        "a": 7
+       },
+       "max": {
+        "a": 18
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 13.654/2018; alteração pela Lei 15.397 foi vetada"
+      }
+     ]
+    },
+    {
+     "id": "latrocinio",
+     "texto": "§ 3º, II: morte (latrocínio)",
+     "hediondoDesde": "1990-07-26",
+     "resultadoMorte": true,
+     "versoes": [
+      {
+       "desde": "2018-04-24",
+       "ate": "2026-05-03",
+       "min": {
+        "a": 20
+       },
+       "max": {
+        "a": 30
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": false,
+       "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+      },
+      {
+       "desde": "2026-05-04",
+       "ate": null,
+       "min": {
+        "a": 24
+       },
+       "max": {
+        "a": 30
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true,
+       "nota": "Lei 15.397/2026"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "extorsao",
+   "artigo": "CP 158",
+   "nome": "Extorsão",
+   "sinonimos": [
+    "158"
+   ],
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "a": 4
+     },
+     "max": {
+      "a": 10
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "extorsao-p1",
+     "texto": "§ 1º: duas ou mais pessoas ou emprego de arma",
+     "fracaoMin": "1/3",
+     "fracaoMax": "1/2"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "extorsao-sequestro-relampago",
+     "texto": "§ 3º: restrição da liberdade da vítima",
+     "hediondoDesde": "2020-01-23",
+     "versoes": [
+      {
+       "desde": "2009-04-17",
+       "ate": null,
+       "min": {
+        "a": 6
+       },
+       "max": {
+        "a": 12
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": false,
+       "nota": "Lei 11.923/2009 — conferir data"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "estelionato",
+   "artigo": "CP 171",
+   "nome": "Estelionato",
+   "sinonimos": [
+    "171",
+    "golpe"
+   ],
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "a": 1
+     },
+     "max": {
+      "a": 5
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "minorantes": [
+    {
+     "id": "estelionato-privilegiado",
+     "texto": "§ 1º: primário e pequeno prejuízo (art. 155, § 2º)",
+     "fracaoMin": "1/3",
+     "fracaoMax": "2/3"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "estelionato-publico",
+     "texto": "§ 3º: contra entidade de direito público etc.",
+     "fracaoMin": "1/3",
+     "fracaoMax": "1/3"
+    },
+    {
+     "id": "estelionato-idoso",
+     "texto": "§ 4º: contra idoso ou vulnerável",
+     "fracaoMin": "1/3",
+     "fracaoMax": "1/1"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "fraude-eletronica",
+     "texto": "§ 2º-A: fraude eletrônica",
+     "versoes": [
+      {
+       "desde": "2021-05-28",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ],
+   "notas": [
+    "§ 5º (representação) revogado pela Lei 15.397/2026, a partir de 2026-05-04: ação pública incondicionada para fatos posteriores; conferir direito intertemporal (norma mista)"
+   ]
+  },
+  {
+   "id": "receptacao",
+   "artigo": "CP 180, caput",
+   "nome": "Receptação",
+   "sinonimos": [
+    "180"
+   ],
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "1996-12-26",
+     "ate": "2026-05-03",
+     "min": {
+      "a": 1
+     },
+     "max": {
+      "a": 4
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2026-05-04",
+     "ate": null,
+     "min": {
+      "a": 2
+     },
+     "max": {
+      "a": 6
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 15.397/2026"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "receptacao-qualificada",
+     "texto": "§ 1º: atividade comercial ou industrial",
+     "versoes": [
+      {
+       "desde": "1996-12-26",
+       "ate": null,
+       "min": {
+        "a": 3
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "receptacao-culposa",
+     "texto": "§ 3º: culposa (detenção, ou multa)",
+     "versoes": [
+      {
+       "desde": "1996-12-26",
+       "ate": null,
+       "min": {
+        "m": 1
+       },
+       "max": {
+        "a": 1
+       },
+       "unidade": "detencao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "receptacao-bem-publico",
+     "texto": "§ 6º: bem público (dobro)",
+     "fracaoMin": "1/1",
+     "fracaoMax": "1/1"
+    }
+   ]
+  },
+  {
+   "id": "lesao-domestica",
+   "artigo": "CP 129, § 9º",
+   "nome": "Lesão corporal em violência doméstica",
+   "sinonimos": [
+    "129 §9",
+    "maria da penha"
+   ],
+   "violencia": true,
+   "violenciaDomestica": true,
+   "versoes": [
+    {
+     "desde": "2004-07-18",
+     "ate": "2024-10-09",
+     "min": {
+      "m": 3
+     },
+     "max": {
+      "a": 3
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2024-10-10",
+     "ate": null,
+     "min": {
+      "a": 2
+     },
+     "max": {
+      "a": 5
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 14.994/2024"
+    }
+   ]
+  },
+  {
+   "id": "lesao-mulher",
+   "artigo": "CP 129, § 13",
+   "nome": "Lesão corporal contra a mulher por razões da condição do sexo feminino",
+   "violencia": true,
+   "violenciaDomestica": true,
+   "versoes": [
+    {
+     "desde": "2021-07-29",
+     "ate": "2024-10-09",
+     "min": {
+      "a": 1
+     },
+     "max": {
+      "a": 4
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2024-10-10",
+     "ate": null,
+     "min": {
+      "a": 2
+     },
+     "max": {
+      "a": 5
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 14.994/2024"
+    }
+   ]
+  },
+  {
+   "id": "lesao",
+   "artigo": "CP 129",
+   "nome": "Lesão corporal",
+   "sinonimos": [
+    "129"
+   ],
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "m": 3
+     },
+     "max": {
+      "a": 1
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "lesao-grave",
+     "texto": "§ 1º: grave",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 1
+       },
+       "max": {
+        "a": 5
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "lesao-gravissima",
+     "texto": "§ 2º: gravíssima",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 2
+       },
+       "max": {
+        "a": 8
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "lesao-morte",
+     "texto": "§ 3º: seguida de morte",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 4
+       },
+       "max": {
+        "a": 12
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ameaca",
+   "artigo": "CP 147",
+   "nome": "Ameaça",
+   "sinonimos": [
+    "147"
+   ],
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "m": 1
+     },
+     "max": {
+      "m": 6
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "ou multa"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "ameaca-mulher",
+     "texto": "§ 1º: contra a mulher por razões da condição do sexo feminino (dobro)",
+     "fracaoMin": "1/1",
+     "fracaoMax": "1/1",
+     "desde": "2024-10-10",
+     "violenciaDomestica": true
+    }
+   ]
+  },
+  {
+   "id": "descumprimento-mpu",
+   "artigo": "Lei 11.340, art. 24-A",
+   "nome": "Descumprimento de medida protetiva",
+   "violencia": false,
+   "violenciaDomestica": true,
+   "versoes": [
+    {
+     "desde": "2018-04-04",
+     "ate": "2024-10-09",
+     "min": {
+      "m": 3
+     },
+     "max": {
+      "a": 2
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "2024-10-10",
+     "ate": null,
+     "min": {
+      "a": 2
+     },
+     "max": {
+      "a": 5
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara, Lei 11.340 atualizada, 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 14.994/2024"
+    }
+   ]
+  },
+  {
+   "id": "homicidio",
+   "artigo": "CP 121",
+   "nome": "Homicídio",
+   "sinonimos": [
+    "121"
+   ],
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "a": 6
+     },
+     "max": {
+      "a": 20
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "minorantes": [
+    {
+     "id": "homicidio-privilegiado",
+     "texto": "§ 1º: relevante valor social/moral ou violenta emoção",
+     "fracaoMin": "1/6",
+     "fracaoMax": "1/3"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "homicidio-qualificado",
+     "texto": "§ 2º",
+     "hediondoDesde": "1994-09-07",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 12
+       },
+       "max": {
+        "a": 30
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ],
+     "notas": [
+      "Lei 15.159/2025: todo o § 2º é hediondo desde 2025-07-04 — conferir"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "feminicidio",
+   "artigo": "CP 121-A",
+   "nome": "Feminicídio",
+   "violencia": true,
+   "hediondoDesde": "2024-10-10",
+   "resultadoMorte": true,
+   "versoes": [
+    {
+     "desde": "2024-10-10",
+     "ate": null,
+     "min": {
+      "a": 20
+     },
+     "max": {
+      "a": 40
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 14.994/2024; antes era qualificadora do 121"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "feminicidio-p2",
+     "texto": "§ 2º",
+     "fracaoMin": "1/3",
+     "fracaoMax": "1/2"
+    }
+   ]
+  },
+  {
+   "id": "estupro",
+   "artigo": "CP 213",
+   "nome": "Estupro",
+   "sinonimos": [
+    "213"
+   ],
+   "violencia": true,
+   "hediondoDesde": "2009-08-07",
+   "versoes": [
+    {
+     "desde": "2009-08-07",
+     "ate": null,
+     "min": {
+      "a": 6
+     },
+     "max": {
+      "a": 10
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "estupro-p1",
+     "texto": "§ 1º: lesão grave ou vítima de 14 a 18 anos",
+     "versoes": [
+      {
+       "desde": "2009-08-07",
+       "ate": null,
+       "min": {
+        "a": 8
+       },
+       "max": {
+        "a": 12
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "estupro-morte",
+     "texto": "§ 2º: morte",
+     "resultadoMorte": true,
+     "versoes": [
+      {
+       "desde": "2009-08-07",
+       "ate": null,
+       "min": {
+        "a": 12
+       },
+       "max": {
+        "a": 30
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "estupro-vulneravel",
+   "artigo": "CP 217-A",
+   "nome": "Estupro de vulnerável",
+   "sinonimos": [
+    "217-A"
+   ],
+   "violencia": true,
+   "hediondoDesde": "2009-08-07",
+   "versoes": [
+    {
+     "desde": "2009-08-07",
+     "ate": "(véspera da vigência da Lei 15.280/2025)",
+     "min": {
+      "a": 8
+     },
+     "max": {
+      "a": 15
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": false,
+     "nota": "valor da redação anterior, de memória: CONFERIR na publicação original da lei anterior"
+    },
+    {
+     "desde": "(vigência da Lei 15.280/2025 — conferir)",
+     "ate": null,
+     "min": {
+      "a": 10
+     },
+     "max": {
+      "a": 18
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "Lei 15.280/2025"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "ev-lesao",
+     "texto": "§ 3º: lesão grave",
+     "versoes": [
+      {
+       "desde": "(vigência da Lei 15.280/2025 — conferir)",
+       "ate": null,
+       "min": {
+        "a": 12
+       },
+       "max": {
+        "a": 24
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    },
+    {
+     "id": "ev-morte",
+     "texto": "§ 4º: morte",
+     "resultadoMorte": true,
+     "versoes": [
+      {
+       "desde": "(vigência da Lei 15.280/2025 — conferir)",
+       "ate": null,
+       "min": {
+        "a": 20
+       },
+       "max": {
+        "a": 40
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "trafico",
+   "artigo": "Lei 11.343, art. 33",
+   "nome": "Tráfico de drogas",
+   "sinonimos": [
+    "33",
+    "tráfico"
+   ],
+   "violencia": false,
+   "equiparado": true,
+   "versoes": [
+    {
+     "desde": "2006-10-08",
+     "ate": null,
+     "min": {
+      "a": 5
+     },
+     "max": {
+      "a": 15
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara, Lei 11.343 atualizada, 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "minorantes": [
+    {
+     "id": "trafico-privilegiado",
+     "texto": "§ 4º: primário, bons antecedentes, não se dedica a atividades criminosas nem integra organização (não hediondo: LEP 112 § 5º; PRD admitida: Res. Senado 5/2012)",
+     "fracaoMin": "1/6",
+     "fracaoMax": "2/3"
+    }
+   ],
+   "majorantes": [
+    {
+     "id": "trafico-art40",
+     "texto": "art. 40, I a VII",
+     "fracaoMin": "1/6",
+     "fracaoMax": "2/3"
+    },
+    {
+     "id": "trafico-40A",
+     "texto": "art. 40-A: orcrim ultraviolenta, milícia (dobro)",
+     "fracaoMin": "1/1",
+     "fracaoMax": "1/1",
+     "desde": "2026-03-25"
+    }
+   ]
+  },
+  {
+   "id": "associacao-trafico",
+   "artigo": "Lei 11.343, art. 35",
+   "nome": "Associação para o tráfico",
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "2006-10-08",
+     "ate": null,
+     "min": {
+      "a": 3
+     },
+     "max": {
+      "a": 10
+     },
+     "unidade": "reclusao",
+     "fonte": "Câmara, Lei 11.343 atualizada, 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "notas": [
+    "Não é hediondo nem equiparado (jurisprudência do STJ) — conferir"
+   ]
+  },
+  {
+   "id": "embriaguez-volante",
+   "artigo": "CTB 306",
+   "nome": "Embriaguez ao volante",
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "2008-06-20",
+     "ate": null,
+     "min": {
+      "m": 6
+     },
+     "max": {
+      "a": 3
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara, CTB atualizado, 04/11/2026",
+     "conferido": true
+    }
+   ]
+  },
+  {
+   "id": "dano",
+   "artigo": "CP 163",
+   "nome": "Dano",
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "m": 1
+     },
+     "max": {
+      "m": 6
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "ou multa"
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "dano-qualificado",
+     "texto": "parágrafo único",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "m": 6
+       },
+       "max": {
+        "a": 3
+       },
+       "unidade": "detencao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "resistencia",
+   "artigo": "CP 329",
+   "nome": "Resistência",
+   "violencia": true,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "m": 2
+     },
+     "max": {
+      "a": 2
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true
+    }
+   ],
+   "qualificadoras": [
+    {
+     "id": "resistencia-p1",
+     "texto": "§ 1º: ato não se executa",
+     "versoes": [
+      {
+       "desde": "1940-01-01",
+       "ate": null,
+       "min": {
+        "a": 1
+       },
+       "max": {
+        "a": 3
+       },
+       "unidade": "reclusao",
+       "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+       "conferido": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "desacato",
+   "artigo": "CP 331",
+   "nome": "Desacato",
+   "violencia": false,
+   "versoes": [
+    {
+     "desde": "1940-01-01",
+     "ate": null,
+     "min": {
+      "m": 6
+     },
+     "max": {
+      "a": 2
+     },
+     "unidade": "detencao",
+     "fonte": "Câmara dos Deputados, CP atualizado (normaatualizada), baixado em 04/11/2026",
+     "conferido": true,
+     "nota": "ou multa"
+    }
+   ]
+  },
+  {
+   "id": "armas",
+   "artigo": "Lei 10.826, arts. 12, 14 e 16",
+   "nome": "Posse e porte de arma de fogo",
+   "pendente": true,
+   "versoes": [],
+   "notas": [
+    "NÃO CONFERIDO: o texto atualizado do Estatuto do Desarmamento não estava disponível; preencher na revisão"
+   ]
+  }
+ ]
+}

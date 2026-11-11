@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <script src="../dados-casos.js"></script>
+  <script src="../privacidade-ui.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0BQFj6bAGjaWxPANhjgWn7C98mQcIaJ/vnt2WU0FTOA='; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self' 'sha256-7oGXiy4LaFt/wbM4b5w4BtA0fDjhendhLo8qAMlcX4g='; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4C9A2A">
+  <title>Detração cautelar — Calculadora de Execução Penal</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --primaria: #4C9A2A;
+      --primaria-escura: #3F8223;
+      --alerta: #E9A820;
+      --erro: #C10015;
+      --fundo: #fff;
+      --texto: #202820;
+      --borda: #d7dfd8;
+      --raio: 10px;
+      font-family: system-ui, sans-serif;
+      color: var(--texto);
+      background: var(--fundo);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+      line-height: 1.5;
+    }
+
+    h1 { font-size: 1.6rem; line-height: 1.2; }
+
+    .painel {
+      margin-block: 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--borda);
+      border-radius: var(--raio);
+    }
+
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+
+    input {
+      display: block;
+      width: 100%;
+      max-width: 14rem;
+      margin-top: .35rem;
+      padding: .6rem;
+      border: 1px solid var(--borda);
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    input[type="checkbox"] { display: inline-block; width: auto; margin: 0 .4rem 0 0; }
+    .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .75rem 1rem; }
+    .grade label { margin-top: .5rem; }
+    .lista { padding-left: 1.25rem; }
+    .linha { display: flex; flex-wrap: wrap; align-items: end; gap: .75rem; }
+    .linha label { flex: 1 1 12rem; }
+    .linha input { max-width: none; }
+    .item { margin-block: .75rem; padding: .75rem; border: 1px solid var(--borda); border-radius: 6px; }
+    .feriado { display: flex; gap: .5rem; align-items: flex-start; margin-block: .5rem; }
+    .feriado input { margin-top: .25rem; }
+    .feriado small { display: block; font-weight: 400; }
+    textarea { display: block; width: 100%; min-height: 18rem; padding: .75rem; font: inherit; }
+    .secundario { color: var(--texto); background: transparent; border: 1px solid var(--borda); }
+    .resultado-item { margin-block: .5rem; }
+    [hidden] { display: none !important; }
+
+    button {
+      margin-top: 1.25rem;
+      padding: .65rem 1rem;
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--primaria-escura);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .aviso {
+      padding: .75rem 1rem;
+      border-left: 4px solid var(--alerta);
+      background: color-mix(in srgb, var(--alerta) 12%, var(--fundo));
+    }
+
+    #resultado:empty { display: none; }
+    #resultado[role="alert"] { border-color: var(--erro); }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primaria: #72C850;
+        --primaria-escura: #72C850;
+        --fundo: #151A17;
+        --texto: #f2f5f2;
+        --borda: #465048;
+      }
+    }
+  </style>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../aviso-teste.css">
+</head>
+<body>
+  <div id="aviso-teste">Versão de teste, não oficial. Uso informal para conferência; o resultado é triagem e não substitui o cálculo oficial. Não insira dados de assistidos fora do seu computador.</div>
+  <main>
+    <p><a href="../index.html#detracoes">Voltar à calculadora de execução</a></p>
+    <h1>Detração de recolhimento domiciliar</h1>
+    <p>Informe o período e as horas comprovadas em cada tipo de dia. Os padrões são editáveis.</p>
+    <p class="aviso">O cálculo segue provisoriamente o Tema 1155/STJ. O Tema 1454/STF (RE 1.598.180) aguarda decisão de mérito; a tese de dias integrais é mostrada separadamente e não substitui a conta principal.</p>
+
+    <form id="formulario" class="painel">
+      <h2>Período e horas</h2>
+      <div class="grade">
+        <label for="inicio">Primeiro dia
+          <input id="inicio" name="inicio" type="date">
+        </label>
+        <label for="fim">Último dia
+          <input id="fim" name="fim" type="date">
+        </label>
+        <label for="horasDiaUtil">Horas por dia útil
+          <input id="horasDiaUtil" name="horasDiaUtil" type="number" min="0" max="24" step="1" value="12" required>
+        </label>
+        <label for="horasSabado">Horas aos sábados
+          <input id="horasSabado" name="horasSabado" type="number" min="0" max="24" step="1" value="24" required>
+        </label>
+        <label for="horasDomingo">Horas aos domingos
+          <input id="horasDomingo" name="horasDomingo" type="number" min="0" max="24" step="1" value="24" required>
+        </label>
+      </div>
+
+      <h2>Feriados nacionais e estaduais</h2>
+      <p>Os feriados nacionais e do Estado de São Paulo são preenchidos automaticamente. Desmarque os que não devem ser considerados; feriados municipais podem ser acrescentados abaixo.</p>
+      <div id="feriados-automaticos" aria-live="polite"></div>
+      <div class="linha">
+        <label for="feriado-municipal-data">Feriado municipal
+          <input id="feriado-municipal-data" type="date">
+        </label>
+        <label for="feriado-municipal-nome">Nome
+          <input id="feriado-municipal-nome" type="text" maxlength="120">
+        </label>
+        <button id="adicionar-feriado" type="button" class="secundario">Acrescentar feriado</button>
+      </div>
+      <ul id="feriados-municipais" class="lista"></ul>
+
+      <h2>Dias a excluir</h2>
+      <p>Suspensão, descumprimento ou período sem prova. Datas repetidas ou sobrepostas são excluídas uma só vez.</p>
+      <div id="exclusoes"></div>
+      <button id="adicionar-exclusao" type="button" class="secundario">Adicionar intervalo a excluir</button>
+      <h2>Horas comprovadas</h2>
+      <p>Use períodos horários para eliminar sobreposições. Se informar totais agregados, confira antes que não haja sobreposição. Estas opções substituem o cálculo pelo calendário.</p>
+      <div class="grade">
+        <label for="horas-noturnas">Horas noturnas (total agregado)
+          <input id="horas-noturnas" name="horasNoturnas" type="number" min="0" step="1">
+        </label>
+        <label for="horas-folga">Horas em dias de folga (total agregado)
+          <input id="horas-folga" name="horasFolga" type="number" min="0" step="1">
+        </label>
+      </div>
+      <label for="periodos">Períodos horários comprovados (opcional, um por linha: início;fim)</label>
+      <textarea id="periodos" rows="4" placeholder="2026-01-02T22:00;2026-01-03T06:00"></textarea>
+      <p>Informe horários locais completos, no formato AAAA-MM-DDTHH:mm. Se preencher períodos, eles substituem o calendário e os totais agregados.</p>
+      <p><button type="submit">Calcular detração</button></p>
+    </form>
+
+    <section id="resultado" class="painel" aria-live="polite" hidden></section>
+    <section id="minuta-painel" class="painel" hidden>
+      <h2>Minuta para revisão</h2>
+      <p>Confira e adapte os dados, documentos e fundamentos antes de usar.</p>
+      <label for="minuta">Texto editável</label>
+      <textarea id="minuta"></textarea>
+      <button id="imprimir-minuta" type="button" class="secundario">Imprimir minuta</button>
+    </section>
+    <p class="aviso">Pelo Tema 1155/STJ, soma-se o total de horas comprovadas; cada 24 horas gera um dia, e o restante só é desprezado no fim. Monitoramento eletrônico não é requisito para esse critério.</p>
+    <p>Ferramenta de apoio. A análise do caso concreto cabe à defesa e ao juízo.</p>
+  </main>
+
+  <script src="detracao-cautelar.js"></script>
+  <script>
+    "use strict";
+
+    const formulario = document.getElementById("formulario");
+    const resultado = document.getElementById("resultado");
+    const exclusoes = document.getElementById("exclusoes");
+    const feriadosMunicipais = [];
+    const feriadosDesmarcados = new Set();
+
+    function item(tag, texto) {
+      const elemento = document.createElement(tag);
+      if (texto) elemento.textContent = texto;
+      return elemento;
+    }
+
+    function converterDataHora(valor) {
+      const partes = valor.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
+      if (!partes) return null;
+      const data = new Date(valor);
+      if (Number.isNaN(data.getTime()) ||
+          [data.getFullYear(), data.getMonth() + 1, data.getDate(), data.getHours(), data.getMinutes()]
+            .some((parte, indice) => parte !== Number(partes[indice + 1]))) return null;
+      return data.toISOString();
+    }
+
+    function renderizarFeriados() {
+      const inicio = document.getElementById("inicio").value;
+      const fim = document.getElementById("fim").value;
+      const destino = document.getElementById("feriados-automaticos");
+      destino.replaceChildren();
+      const calculo = CalculadoraDetracaoCautelar.calcularDetracaoCautelar({
+        inicio, fim, feriadosMunicipais
+      });
+      if (calculo.erros) return;
+      calculo.feriadosAutomaticos.forEach((feriado) => {
+        const label = item("label");
+        label.className = "feriado";
+        const checkbox = item("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = !feriadosDesmarcados.has(feriado.data);
+        checkbox.dataset.feriado = feriado.data;
+        const texto = item("span", `${feriado.data} · ${feriado.nome}`);
+        texto.append(item("small", feriado.fonte));
+        label.append(checkbox, texto);
+        destino.append(label);
+      });
+    }
+
+    function adicionarIntervalo() {
+      const bloco = item("div");
+      bloco.className = "item exclusao-item";
+      bloco.innerHTML = '<div class="linha"><label>De <input type="date" data-exclusao-inicio required></label><label>Até <input type="date" data-exclusao-fim required></label><label>Motivo <input type="text" data-exclusao-motivo maxlength="120"></label><button type="button" class="secundario remover-exclusao">Remover</button></div>';
+      bloco.querySelector(".remover-exclusao").addEventListener("click", () => bloco.remove());
+      exclusoes.append(bloco);
+    }
+
+    function adicionarFeriadoMunicipal() {
+      const data = document.getElementById("feriado-municipal-data").value;
+      const nome = document.getElementById("feriado-municipal-nome").value.trim();
+      if (!data || !nome) {
+        document.getElementById("feriado-municipal-nome").setCustomValidity("Informe a data e o nome do feriado.");
+        document.getElementById("feriado-municipal-nome").reportValidity();
+        return;
+      }
+      document.getElementById("feriado-municipal-nome").setCustomValidity("");
+      feriadosMunicipais.push({ data, nome });
+      renderizarFeriadosMunicipais();
+      renderizarFeriados();
+      document.getElementById("feriado-municipal-data").value = "";
+      document.getElementById("feriado-municipal-nome").value = "";
+    }
+
+    function renderizarFeriadosMunicipais() {
+      const lista = document.getElementById("feriados-municipais");
+      lista.replaceChildren();
+      feriadosMunicipais.forEach((feriado, indice) => {
+        const linha = item("li", `${feriado.data} · ${feriado.nome} `);
+        const remover = item("button", "Remover");
+        remover.type = "button";
+        remover.className = "secundario";
+        remover.addEventListener("click", () => {
+          feriadosMunicipais.splice(indice, 1);
+          renderizarFeriadosMunicipais();
+          renderizarFeriados();
+        });
+        linha.append(remover);
+        lista.append(linha);
+      });
+    }
+
+    function entradas() {
+      const textoPeriodos = document.getElementById("periodos").value.trim();
+      return {
+        inicio: document.getElementById("inicio").value,
+        fim: document.getElementById("fim").value,
+        horasNoturnas: formulario.elements.horasNoturnas.value === ""
+          ? undefined : formulario.elements.horasNoturnas.valueAsNumber,
+        horasFolga: formulario.elements.horasFolga.value === ""
+          ? undefined : formulario.elements.horasFolga.valueAsNumber,
+        periodos: textoPeriodos ? textoPeriodos.split(/\r?\n/).map((linha) => {
+          const partes = linha.split(";").map((parte) => parte.trim());
+          return { inicio: converterDataHora(partes[0]), fim: converterDataHora(partes[1]) };
+        }) : undefined,
+        horasDiaUtil: formulario.elements.horasDiaUtil.valueAsNumber,
+        horasSabado: formulario.elements.horasSabado.valueAsNumber,
+        horasDomingo: formulario.elements.horasDomingo.valueAsNumber,
+        feriadosExcluidos: [...feriadosDesmarcados],
+        feriadosMunicipais: feriadosMunicipais.slice(),
+        exclusoes: Array.from(document.querySelectorAll(".exclusao-item"), (bloco) => ({
+          inicio: bloco.querySelector("[data-exclusao-inicio]").value,
+          fim: bloco.querySelector("[data-exclusao-fim]").value,
+          motivo: bloco.querySelector("[data-exclusao-motivo]").value.trim()
+        }))
+      };
+    }
+
+    function mostrarCalculo(calculo) {
+      resultado.replaceChildren();
+      resultado.hidden = false;
+      resultado.setAttribute("role", calculo.erros ? "alert" : "status");
+      if (calculo.erros) {
+        const lista = item("ul");
+        calculo.erros.forEach((erro) => lista.append(item("li", `${erro.campo}: ${erro.mensagem}`)));
+        resultado.append(lista);
+        return;
+      }
+      resultado.append(item("h2", "Resultado"));
+      resultado.append(item("p", `${calculo.horasTotais} horas no total; ${calculo.dias} dias de 24 horas e ${calculo.horasRemanescentes} horas restantes.`));
+      resultado.append(item("p", `Detração pelo Tema 1.155/STJ. Tema 1.454/STF pendente. Total comprovado: ${calculo.horasTotais} horas, ${calculo.dias} dias e ${calculo.horasRemanescentes} horas restantes.`));
+      if (calculo.sobreposicoesRemovidas > 0) {
+        resultado.append(item("p", `${calculo.sobreposicoesRemovidas} horas de sobreposição foram eliminadas.`));
+      }
+      if (Array.isArray(calculo.diasHoras)) {
+        resultado.append(item("p", `Tese de dias integrais: ${calculo.diasIntegrais} dia(s) com 24 horas (${calculo.datasIntegrais.join(", ") || "nenhum"}), em separado e sujeita à análise do caso.`));
+      }
+      const exclusoesCalculadas = calculo.exclusoes || [];
+      const detalhesExclusoes = calculo.exclusoesDetalhadas || [];
+      const feriadosUsados = calculo.feriadosUsados || [];
+      resultado.append(item("h3", `Dias excluídos: ${exclusoesCalculadas.length}`));
+      const listaExclusoes = item("ul");
+      if (detalhesExclusoes.length) {
+        detalhesExclusoes.forEach((exclusao) =>
+          listaExclusoes.append(item("li", `${exclusao.data}${exclusao.motivos.length ? ` · ${exclusao.motivos.join(", ")}` : ""}`)));
+      } else {
+        listaExclusoes.append(item("li", "Nenhum."));
+      }
+      resultado.append(listaExclusoes);
+      resultado.append(item("h3", "Feriados usados"));
+      const listaFeriados = item("ul");
+      if (feriadosUsados.length) {
+        feriadosUsados.forEach((feriado) => listaFeriados.append(item("li", `${feriado.data} · ${feriado.nome} (${feriado.fonte})`)));
+      } else {
+        listaFeriados.append(item("li", "Nenhum."));
+      }
+      resultado.append(listaFeriados);
+      resultado.append(item("p", "O total de horas é convertido em dias somente uma vez, ao final. A tese de dias integrais é alternativa e o Tema 1454/STF permanece pendente."));
+      if (Array.isArray(calculo.diasHoras)) {
+        const usar = item("button", "Usar na calculadora");
+        usar.type = "button";
+        usar.addEventListener("click", () => {
+          try {
+            localStorage.setItem("calcpenal:detracao-cautelar-pendente", JSON.stringify({
+              versao: 1,
+              diasHoras: calculo.diasHoras,
+              dias: calculo.dias,
+              horasTotais: calculo.horasTotais,
+              inicio: calculo.inicio,
+              fim: calculo.fim
+            }));
+            window.location.href = "../index.html#detracoes";
+          } catch (_) {
+            resultado.append(item("p", "Não foi possível transferir os dados. Confira as permissões de armazenamento e tente novamente."));
+          }
+        });
+        resultado.append(usar);
+      }
+      const minutaBtn = item("button", "Gerar minuta");
+      minutaBtn.type = "button";
+      minutaBtn.className = "secundario";
+      minutaBtn.addEventListener("click", () => gerarMinuta(calculo));
+      resultado.append(usar, minutaBtn);
+    }
+
+    function gerarMinuta(calculo) {
+      const feriados = (calculo.feriadosUsados || []).map((feriado) => `- ${feriado.data}: ${feriado.nome}`).join("\n") || "- Nenhum";
+      const diasExcluidos = (calculo.exclusoesDetalhadas || [])
+        .map((exclusao) => `- ${exclusao.data}${exclusao.motivos.length ? `: ${exclusao.motivos.join(", ")}` : ""}`)
+        .join("\n") || "- Nenhum";
+      const teseDiasIntegrais = Array.isArray(calculo.diasHoras)
+        ? `Em tese alternativa, foram identificados ${calculo.diasIntegrais} dia(s) com 24 horas, sujeitos à apreciação judicial.\n\n`
+        : "";
+      document.getElementById("minuta").value =
+        "AO JUÍZO DA EXECUÇÃO PENAL\n\n" +
+        "Processo: [informar]\nPessoa sentenciada: [informar]\n\n" +
+        "A defesa requer a análise e o reconhecimento, para fins de detração, do período de recolhimento domiciliar obrigatório compreendido entre " +
+        `${calculo.inicio || "[informar]"} e ${calculo.fim || "[informar]"}, conforme documentos a serem juntados e conferidos.\n\n` +
+        `A memória desta ferramenta registra ${calculo.horasTotais} horas no total, equivalentes a ${calculo.dias} dia(s) de 24 horas, com ${calculo.horasRemanescentes} hora(s) restantes, sem desprezo intermediário de frações.\n\n` +
+        teseDiasIntegrais +
+        `Detração pelo Tema 1.155/STJ. Tema 1.454/STF pendente. Total comprovado: ${calculo.horasTotais} horas, ${calculo.dias} dias e ${calculo.horasRemanescentes} horas restantes.\n\n` +
+        `Feriados considerados:\n${feriados}\n\n` +
+        `Dias excluídos:\n${diasExcluidos}\n\n` +
+        "Fundamentos indicados na regra E27-A: art. 42 do Código Penal e Tema 1155 do STJ. O Tema 1454 do STF está pendente de julgamento; a tese de dias integrais é apresentada em separado, sem afirmação de cabimento.\n\n" +
+        "Requer-se a conferência dos períodos, comprovantes, exclusões e eventual sobreposição com outros créditos, antes da decisão.\n\n" +
+        "Termos em que, pede deferimento.\n\n[local], [data]\n\n[assinatura]";
+      document.getElementById("minuta-painel").hidden = false;
+      document.getElementById("minuta").focus();
+    }
+
+    document.getElementById("inicio").addEventListener("change", renderizarFeriados);
+    document.getElementById("fim").addEventListener("change", renderizarFeriados);
+    document.getElementById("feriados-automaticos").addEventListener("change", (evento) => {
+      const campo = evento.target.closest("[data-feriado]");
+      if (!campo) return;
+      if (campo.checked) feriadosDesmarcados.delete(campo.dataset.feriado);
+      else feriadosDesmarcados.add(campo.dataset.feriado);
+    });
+    document.getElementById("adicionar-exclusao").addEventListener("click", adicionarIntervalo);
+    document.getElementById("adicionar-feriado").addEventListener("click", adicionarFeriadoMunicipal);
+    document.getElementById("imprimir-minuta").addEventListener("click", () => window.print());
+    formulario.addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      document.getElementById("minuta-painel").hidden = true;
+      mostrarCalculo(CalculadoraDetracaoCautelar.calcularDetracaoCautelar(entradas()));
+    });
+    renderizarFeriados();
+  </script>
+</body>
+</html>
