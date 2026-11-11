@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR" data-calculadora="radar">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4C9A2A">
+  <title>Radar de benefícios da carteira</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="calc.css">
+  <link rel="stylesheet" href="compartilhado.css">
+  <link rel="stylesheet" href="radar.css">
+  <script src="tema.js"></script>
+  <script src="dados-casos.js"></script>
+  <script src="privacidade-ui.js"></script>
+  <script defer src="compartilhado.js"></script>
+  <script src="dados/eras.js"></script>
+  <script src="dados/fracoes-progressao.js"></script>
+  <script src="dados/fracoes-livramento.js"></script>
+  <script src="dados/vedacoes.js"></script>
+  <script src="dados/decretos/2024.js"></script>
+  <script src="dados/decretos/2025.js"></script>
+  <script src="dados/decretos.js"></script>
+  <script src="dados/natureza.js"></script>
+  <script src="dados/modulos-provisorios.js"></script>
+  <script src="dados/index.js"></script>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="aviso-teste.css">
+</head>
+<body>
+  <div id="aviso-teste">Versão de teste, não oficial. Uso informal para conferência; o resultado é triagem e não substitui o cálculo oficial. Não insira dados de assistidos fora do seu computador.</div>
+  <header class="topo">
+    <div class="marca">
+      <img class="logo-topo" src="icons/logo-dpesp.png" alt="Defensoria Pública do Estado de São Paulo">
+      <div class="marca-texto"><h1>Calculadora de Execução Penal</h1></div>
+    </div>
+    <div class="topo-dir">
+      <button type="button" class="q-btn-flat btn-tema" id="btnTema" title="Tema da tela: automático, claro ou escuro">
+        <span id="rotuloTema">Automático</span>
+      </button>
+    </div>
+  </header>
+  <nav class="nav-calc" aria-label="Calculadoras">
+    <a href="index.html#condenacoes" data-calc="execucao">Execução</a>
+    <a href="index.html#projecao" aria-disabled="true" tabindex="-1">Projeção</a>
+    <a href="index.html#conferir-atestado">Conferir atestado</a>
+    <a href="importar.html" data-calc="importar">Importar documentos</a>
+    <a href="radar.html" data-calc="radar">Radar</a>
+    <a href="ferramentas.html" data-calc="ferramentas">Ferramentas</a>
+  </nav>
+  <aside class="privacidade-casos" aria-label="Dados de casos neste navegador">
+    <p class="nota">Os dados ficam só neste navegador e são apagados automaticamente após 7 dias.</p>
+    <button class="q-btn q-btn-outline" id="apagar-dados-casos" type="button">Apagar dados de casos deste computador</button>
+    <p class="nota">O prazo vale para rascunhos de importação e identificação do caso. A carteira abaixo é apagada pelo botão “Apagar tudo”.</p>
+  </aside>
+  <main class="pagina radar-pagina">
+    <div class="pagina-titulo"><h1>Radar da carteira</h1></div>
+    <nav aria-label="Seções do Radar"><a href="importar.html#radar">Rascunhos de importação</a> · <a href="#vigilancia">Vigilância</a> · <a href="regras/">Regras de negócio</a></nav>
+    <p class="aviso">Os dados ficam neste navegador. O radar é uma ferramenta de apoio e não substitui a conferência do cálculo.</p>
+    <section class="painel" aria-labelledby="atualizacoes-titulo">
+      <h2 id="atualizacoes-titulo">Casos afetados pela base de regras</h2>
+      <p>Base atual: <strong id="base-versao"></strong>. A comparação usa a data e as opções do arquivo salvo, sem avançar a data do cálculo.</p>
+      <p id="resumo-regras" role="status" aria-live="polite"></p>
+      <ul id="alteracoes-regras"></ul>
+      <details>
+        <summary>Histórico da base</summary>
+        <ul id="historico-regras"></ul>
+      </details>
+    </section>
+    <section class="painel" aria-labelledby="carteira-titulo">
+      <div class="painel-cab">
+        <div>
+          <h2 id="carteira-titulo">Cálculos salvos</h2>
+          <p>Importe arquivos .calcpen para acompanhar as próximas datas.</p>
+        </div>
+        <div class="acoes">
+          <button id="exportar-csv" class="q-btn q-btn-outline" type="button">Exportar CSV</button>
+          <button id="exportar-ics" class="q-btn q-btn-outline" type="button">Exportar agenda (.ics)</button>
+          <button id="apagar-tudo" class="q-btn q-btn-outline perigo" type="button">Apagar tudo</button>
+        </div>
+      </div>
+      <form id="senha-form" class="senha-controles">
+        <input hidden type="text" name="username" autocomplete="username">
+        <label for="senha">Senha local opcional</label>
+        <input id="senha" type="password" autocomplete="current-password" minlength="8">
+        <button id="senha-acao" class="q-btn q-btn-outline" type="submit">Ativar senha</button>
+        <button id="travar" class="q-btn q-btn-outline" type="button" hidden>Travar carteira</button>
+        <p id="senha-ajuda">A senha protege os dados neste navegador. Guarde-a: não há recuperação.</p>
+      </form>
+      <div class="importar">
+        <label for="arquivos">Importar cálculos (.calcpen)</label>
+        <input id="arquivos" type="file" accept=".calcpen,application/json" multiple>
+        <p id="mensagem" role="status" aria-live="polite"></p>
+      </div>
+      <div class="tabela-rolagem">
+        <table>
+          <thead><tr><th>Cálculo</th><th>Próximo benefício</th><th>Data</th><th>Situação</th><th>Pedido</th><th></th></tr></thead>
+          <tbody id="lista"></tbody>
+        </table>
+      </div>
+      <p id="vazio" class="vazio">Nenhum cálculo salvo nesta carteira.</p>
+    </section>
+    <section class="painel" id="vigilancia" aria-labelledby="vigilancia-titulo">
+      <h2 id="vigilancia-titulo">Vigilância</h2>
+      <p>Temas a acompanhar (V01–V06). Esta lista não consulta tribunais automaticamente e não indica que houve julgamento. Temas pendentes não mudam as regras por si só.</p>
+      <div class="tabela-rolagem">
+        <table>
+          <thead><tr><th>ID</th><th>Objeto</th><th>Afeta</th></tr></thead>
+          <tbody>
+            <tr><td>V01</td><td>ADIs 7966 e 7967 (Lei 15.402/2026)</td><td>Era 3b</td></tr>
+            <tr><td>V02</td><td>Tema 1.319/STF (RE 1.464.013; mérito pendente; sobrestamento do Tema 1.196/STJ)</td><td>E33</td></tr>
+            <tr><td>V03</td><td>Tema 1408/STF — exame criminológico × irretroatividade</td><td>E36</td></tr>
+            <tr><td>V04</td><td>Tema 1.457/STJ (afetado em 26/06/2026; mérito pendente) — data-base na descontinuidade da prisão</td><td>D7</td></tr>
+            <tr><td>V05</td><td>Tema 1.454/STF (RE 1.598.180; mérito pendente) — detração de cautelar diversa da prisão</td><td>E27-A</td></tr>
+            <tr data-piloto-modulo="E70"><td>V06</td><td>Novo decreto de indulto natalino (dez/2026)</td><td>E70</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="regras.js"></script>
+  <script src="piloto.js"></script>
+  <script src="engine.js"></script>
+  <script src="radar.js"></script>
+  <script src="radar-ui.js"></script>
+</body>
+</html>

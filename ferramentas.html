@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR" data-calculadora="ferramentas">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4c9a2a">
+  <title>Ferramentas rápidas · Calculadora de Execução Penal</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="ferramentas.css">
+  <link rel="stylesheet" href="calc.css">
+  <link rel="stylesheet" href="compartilhado.css">
+  <script src="tema.js"></script>
+  <script src="dados-casos.js"></script>
+  <script src="privacidade-ui.js"></script>
+  <script src="compartilhado.js" defer></script>
+  <script src="dados/eras.js" defer></script>
+  <script src="dados/fracoes-progressao.js" defer></script>
+  <script src="dados/fracoes-livramento.js" defer></script>
+  <script src="dados/vedacoes.js" defer></script>
+  <script src="dados/decretos/2024.js" defer></script>
+  <script src="dados/decretos/2025.js" defer></script>
+  <script src="dados/decretos.js" defer></script>
+  <script src="dados/natureza.js" defer></script>
+  <script src="dados/index.js" defer></script>
+  <script src="regras.js" defer></script>
+  <script src="ferramentas-rapidas.js" defer></script>
+  <script src="ferramentas-ui.js" defer></script>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="aviso-teste.css">
+</head>
+<body>
+  <div id="aviso-teste">Versão de teste, não oficial. Uso informal para conferência; o resultado é triagem e não substitui o cálculo oficial. Não insira dados de assistidos fora do seu computador.</div>
+  <header class="topo">
+    <div class="marca">
+      <img class="logo-topo" src="icons/logo-dpesp.png" alt="Defensoria Pública do Estado de São Paulo">
+      <div class="marca-texto"><h1>Calculadora de Execução Penal</h1></div>
+    </div>
+    <div class="topo-dir">
+      <button type="button" class="q-btn-flat btn-tema" id="btnTema" title="Tema da tela: automático, claro ou escuro">
+        <span id="rotuloTema">Automático</span>
+      </button>
+    </div>
+  </header>
+  <nav class="nav-calc" aria-label="Calculadoras">
+    <a href="index.html#condenacoes" data-calc="execucao">Execução</a>
+    <a href="index.html#projecao" aria-disabled="true" tabindex="-1">Projeção</a>
+    <a href="index.html#conferir-atestado">Conferir atestado</a>
+    <a href="importar.html" data-calc="importar">Importar documentos</a>
+    <a href="radar.html" data-calc="radar">Radar</a>
+    <a href="ferramentas.html" data-calc="ferramentas">Ferramentas</a>
+  </nav>
+  <main class="pagina">
+    <div class="pagina-titulo">
+      <p class="sub">Cálculos auxiliares</p>
+      <h1>Ferramentas rápidas</h1>
+      <p>Converta penas, confira frações e faça contas com datas.</p>
+      <p><a class="q-btn q-btn-outline" href="ferramentas/detracao-cautelar.html">Detração de recolhimento domiciliar</a></p>
+    </div>
+    <p class="nota">Resultados de apoio. As frações são cálculos matemáticos e não indicam, por si só, qual regra se aplica ao caso.</p>
+    <p class="nota">D1 e D3 ainda estão pendentes de validação. Compare as três convenções; o arredondamento das frações para cima é provisório.</p>
+
+    <section class="painel" aria-labelledby="titulo-conversor">
+      <h2 id="titulo-conversor" class="rotulo-secao">1. Converter pena para aplicar fração</h2>
+      <p class="ajuda">E52: informe a pena e uma data inicial. No calendário, anos e meses são somados à data, limitando dias inexistentes ao último dia do mês; 365/30 e 360/30 usam as convenções indicadas.</p>
+      <form id="form-conversor" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Anos</span>
+            <input id="anos" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Meses</span>
+            <input id="meses" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Dias</span>
+            <input id="dias" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data inicial</span>
+            <input id="data-inicial" type="date" required>
+          </label>
+        </div>
+        <p id="erro-conversor" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes">
+          <button class="q-btn" type="submit">Converter pelas três convenções</button>
+        </div>
+      </form>
+      <div id="resultado-conversor" class="resultado-grid" aria-live="polite" hidden>
+        <div class="resultado-item"><span>Calendário</span><strong id="dias-calendario"></strong></div>
+        <div class="resultado-item"><span>365 dias por ano / 30 por mês</span><strong id="dias-365"></strong></div>
+        <div class="resultado-item"><span>360 dias por ano / 30 por mês</span><strong id="dias-360"></strong></div>
+        <span class="resultado-regra">Regra usada: E52.</span>
+        <button class="q-btn-outline copiar" type="button" data-copiar="conversor">Copiar resultados</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-inverso">
+      <h2 id="titulo-inverso" class="rotulo-secao">Dias em anos, meses e dias</h2>
+      <p class="ajuda">Regra usada: E52. Na convenção calendário, informe a data inicial para decompor o período.</p>
+      <form id="form-inverso" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Total de dias</span>
+            <input id="total-dias" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Convenção</span>
+            <select id="convencao-inversa">
+              <option value="calendario">Calendário</option>
+              <option value="365">365 dias por ano / 30 por mês</option>
+              <option value="360">360 dias por ano / 30 por mês</option>
+            </select>
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data inicial</span>
+            <input id="data-inicial-inversa" type="date">
+          </label>
+        </div>
+        <p id="erro-inverso" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes">
+          <button class="q-btn" type="submit">Converter em anos, meses e dias</button>
+        </div>
+      </form>
+      <div id="resultado-inverso" class="resultado-linha" aria-live="polite" hidden>
+        <strong id="pena-decomposta"></strong>
+        <span>Regra usada: E52.</span>
+        <button class="q-btn-outline copiar" type="button" data-copiar="inverso">Copiar resultado</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-fracoes">
+      <h2 id="titulo-fracoes" class="rotulo-secao">Frações da pena</h2>
+      <p class="ajuda">Mostra as frações registradas nas regras de progressão e livramento. Convenção E52/D3: calendário, 365/30 e 360/30; fração arredondada para cima apenas como referência matemática.</p>
+      <form id="form-fracoes" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Anos</span>
+            <input id="fracao-anos" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Meses</span>
+            <input id="fracao-meses" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Dias</span>
+            <input id="fracao-dias" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data inicial</span>
+            <input id="data-inicial-fracoes" type="date" required>
+          </label>
+        </div>
+        <p id="erro-fracoes" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes">
+          <button class="q-btn" type="submit">Calcular todas as frações</button>
+        </div>
+      </form>
+      <div id="resultado-fracoes" hidden>
+        <p class="ajuda">Regra usada: E52/D3; frações calculadas por E31–E33, E37, E41 e E61 são apenas referência matemática.</p>
+        <div class="tabela-rolagem">
+          <table class="q-tabela">
+            <thead>
+              <tr><th scope="col">Fração</th><th scope="col">Calendário</th><th scope="col">365/30</th><th scope="col">360/30</th></tr>
+            </thead>
+            <tbody id="tabela-fracoes"></tbody>
+          </table>
+        </div>
+        <button class="q-btn-outline copiar" type="button" data-copiar="fracoes">Copiar tabela</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-soma-data">
+      <h2 id="titulo-soma-data" class="rotulo-secao">Somar ou subtrair um período de uma data</h2>
+      <p class="ajuda">E52: anos e meses seguem o calendário e dias são dias corridos. Se o dia não existir no mês de destino, usa-se o último dia do mês.</p>
+      <form id="form-soma-data" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data</span>
+            <input id="data-operacao" type="date" required>
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Anos</span>
+            <input id="anos-operacao" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Meses</span>
+            <input id="meses-operacao" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-curto">
+            <span class="q-rotulo">Dias</span>
+            <input id="dias-operacao" type="number" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Operação</span>
+            <select id="tipo-operacao">
+              <option value="somar">Somar</option>
+              <option value="subtrair">Subtrair</option>
+            </select>
+          </label>
+        </div>
+        <p id="erro-soma-data" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes"><button class="q-btn" type="submit">Calcular data</button></div>
+      </form>
+      <div id="resultado-soma-data" class="resultado-linha" aria-live="polite" hidden>
+        <strong id="data-calculada"></strong>
+        <span>Regra usada: E52.</span>
+        <button class="q-btn-outline copiar" type="button" data-copiar="soma-data">Copiar resultado</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-lapso">
+      <h2 id="titulo-lapso" class="rotulo-secao">Calcular lapso por fração</h2>
+      <p class="ajuda">E52/D3: progressão (“ao menos”) arredonda o requisito para cima. E41: livramento (“mais de”) exige o dia seguinte ao implemento da fração.</p>
+      <form id="form-lapso" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-curto"><span class="q-rotulo">Pena · anos</span><input id="lapso-anos" type="number" min="0" step="1" value="0"></label>
+          <label class="q-campo q-campo-curto"><span class="q-rotulo">Pena · meses</span><input id="lapso-meses" type="number" min="0" step="1" value="0"></label>
+          <label class="q-campo q-campo-curto"><span class="q-rotulo">Pena · dias</span><input id="lapso-dias" type="number" min="0" step="1" value="0"></label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Data inicial (convenção calendário)</span><input id="lapso-data-inicial" type="date"></label>
+          <label class="q-campo q-campo-curto"><span class="q-rotulo">Numerador</span><input id="lapso-numerador" type="number" min="1" step="1" value="1"></label>
+          <label class="q-campo q-campo-curto"><span class="q-rotulo">Denominador</span><input id="lapso-denominador" type="number" min="1" step="1" value="6"></label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Convenção</span><select id="lapso-convencao"><option value="calendario">Calendário</option><option value="365">365 dias/ano e 30/mês</option><option value="360">360 dias/ano e 30/mês</option></select></label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Critério</span><select id="criterio-lapso"><option value="ao-menos">Ao menos (progressão)</option><option value="mais-de">Mais de (livramento)</option></select></label>
+        </div>
+        <p id="erro-lapso" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes"><button class="q-btn" type="submit">Calcular lapso</button></div>
+      </form>
+      <div id="resultado-lapso" class="resultado-linha" aria-live="polite" hidden>
+        <strong id="dias-lapso"></strong><span id="regra-lapso"></span>
+        <button class="q-btn-outline copiar" type="button" data-copiar="lapso">Copiar resultado</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-consulta-fracoes">
+      <h2 id="titulo-consulta-fracoes" class="rotulo-secao">Consultar frações pela data do fato</h2>
+      <p class="ajuda">E31/E41/E42: comparação feita com a base de regras vigente na data de consulta, sem combinar leis. Antecedente violento é diferente de reincidência.</p>
+      <form id="form-consulta-fracoes" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Data do fato</span><input id="consulta-data-fato" type="date" required></label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Consultar regras até</span><input id="consulta-data-base" type="date" required></label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Natureza</span>
+            <select id="consulta-natureza">
+              <option value="comum">Comum, sem violência</option><option value="violencia">Com violência ou grave ameaça</option>
+              <option value="hediondo">Hediondo ou equiparado</option><option value="hediondo_morte">Hediondo com resultado morte</option>
+              <option value="trafico_privilegiado">Tráfico privilegiado</option><option value="feminicidio">Feminicídio</option>
+              <option value="comando_orcrim">Comando de organização criminosa</option><option value="milicia">Milícia</option>
+            </select>
+          </label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Reincidência</span>
+            <select id="consulta-reincidencia"><option value="primario">Primário</option><option value="generico">Reincidente genérico</option><option value="especifico">Reincidente específico</option></select>
+          </label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Condenação anterior com violência ou grave ameaça</span>
+            <select id="consulta-antecedente"><option value="desconhecido">Não informado</option><option value="nao">Não</option><option value="sim">Sim</option></select>
+          </label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Antecedentes (para livramento · E45)</span>
+            <select id="consulta-bons-antecedentes"><option value="sim">Bons antecedentes</option><option value="nao">Maus antecedentes</option></select>
+          </label>
+        </div>
+        <div class="linha-campos">
+          <label class="campo-checkbox"><input id="consulta-equiparado" type="checkbox"> Equiparado a hediondo</label>
+          <label class="campo-checkbox"><input id="consulta-titulo-xii" type="checkbox"> Crime do Título XII do Código Penal</label>
+          <label class="q-campo q-campo-medio"><span class="q-rotulo">Enquadramento de vedação da Lei 15.358 (se confirmado)</span>
+            <select id="consulta-vedacao-lc"><option value="">Não informado</option><option value="art2-paragrafo4-III">Art. 2º, § 4º, III</option><option value="art3-paragrafo-unico">Art. 3º, parágrafo único</option></select>
+          </label>
+        </div>
+        <p id="erro-consulta-fracoes" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes"><button class="q-btn" type="submit">Consultar regras</button></div>
+      </form>
+      <div id="resultado-consulta-fracoes" class="resultado-linha consulta-fracoes" aria-live="polite" hidden>
+        <p id="consulta-data-resumo"></p>
+        <div><strong>Progressão</strong><p id="consulta-progressao"></p><p id="consulta-lei-fato"></p><p id="consulta-lei-favoravel"></p></div>
+        <div><strong>Livramento condicional</strong><p id="consulta-livramento"></p></div>
+        <button class="q-btn-outline copiar" type="button" data-copiar="consulta-fracoes">Copiar resultado</button>
+        <button class="q-btn" type="button" id="usar-na-calculadora" disabled>Usar na calculadora</button>
+      </div>
+    </section>
+
+    <section class="painel" aria-labelledby="titulo-diferenca">
+      <h2 id="titulo-diferenca" class="rotulo-secao">2. Contar um período entre datas</h2>
+      <p class="ajuda">E52: por padrão, conta o tempo transcorrido (data final − inicial), sem contar o último dia. Marque a opção para contar todas as datas do intervalo, inclusive a final.</p>
+      <form id="form-diferenca" novalidate>
+        <div class="linha-campos">
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data inicial</span>
+            <input id="data-inicio-diferenca" type="date" required>
+          </label>
+          <label class="q-campo q-campo-medio">
+            <span class="q-rotulo">Data final</span>
+            <input id="data-fim-diferenca" type="date" required>
+          </label>
+          <label class="campo-checkbox"><input id="incluir-ultimo-dia" type="checkbox"> Incluir o último dia do intervalo</label>
+        </div>
+        <p id="erro-diferenca" class="erro" role="alert" hidden></p>
+        <div class="cartao-acoes"><button class="q-btn" type="submit">Calcular diferença</button></div>
+      </form>
+      <div id="resultado-diferenca" class="resultado-linha" aria-live="polite" hidden>
+        <strong id="dias-diferenca"></strong>
+        <span>Regra usada: E52.</span>
+        <button class="q-btn-outline copiar" type="button" data-copiar="diferenca">Copiar resultado</button>
+      </div>
+    </section>
+    <p id="status-copia" class="sr" role="status" aria-live="polite"></p>
+  </main>
+  <footer>
+    <p>Ferramenta de apoio. Confira a regra aplicável e os dados do caso antes de usar o resultado.</p>
+  </footer>
+</body>
+</html>

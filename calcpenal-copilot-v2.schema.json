@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "calcpenal-copilot-v2.schema.json",
+  "title": "Bloco do Copilot da Calculadora de Execução Penal — versão 2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formato", "versao", "condenacoes", "citacoes"],
+  "properties": {
+    "formato": { "const": "calcpenal-copilot" },
+    "versao": { "const": 2 },
+    "processo": { "type": "string" },
+    "condenacoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/condenacao" }
+    },
+    "prisoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/prisao" }
+    },
+    "interrupcoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/interrupcao" }
+    },
+    "detracoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/detracao" }
+    },
+    "remicoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/remicao" }
+    },
+    "comutacoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/comutacao" }
+    },
+    "faltasGraves": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/faltaGrave" }
+    },
+    "progressoes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/progressao" }
+    },
+    "regimeAtual": { "enum": ["fechado", "semiaberto", "aberto"] },
+    "atestadoSEEU": { "$ref": "#/$defs/atestadoSEEU" },
+    "pendencias": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "pattern": "\\S" }
+    },
+    "observacoes": { "type": "string" },
+    "citacoes": {
+      "type": "object",
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": { "$ref": "#/$defs/citacao" }
+    }
+  },
+  "$defs": {
+    "data": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "dataNula": {
+      "oneOf": [
+        { "$ref": "#/$defs/data" },
+        { "type": "null" }
+      ]
+    },
+    "origem": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "pena": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["anos", "meses", "dias"],
+      "properties": {
+        "anos": { "type": "integer", "minimum": 0 },
+        "meses": { "type": "integer", "minimum": 0 },
+        "dias": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "condenacao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "origem"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "processo": { "type": "string" },
+        "dataFato": { "$ref": "#/$defs/data" },
+        "dataTransitoAcusacao": { "$ref": "#/$defs/data" },
+        "dataTransito": { "$ref": "#/$defs/data" },
+        "idadeNaDataFato": { "type": "integer", "minimum": 0 },
+        "idadeNaSentenca": { "type": "integer", "minimum": 0 },
+        "pena": { "$ref": "#/$defs/pena" },
+        "penaRestante": { "$ref": "#/$defs/pena" },
+        "lei": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "artigo": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "paragrafo": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "violencia": { "type": "boolean" },
+        "resultadoMorte": { "type": "boolean" },
+        "reincidencia": { "enum": ["primario", "generico", "especifico"] },
+        "antecedenteViolento": { "enum": ["sim", "nao", "desconhecido"] },
+        "lei15358LC": { "enum": ["art2-paragrafo4-III", "art3-paragrafo-unico"] },
+        "bonsAntecedentes": { "type": ["boolean", "null"] },
+        "regimeInicial": { "enum": ["fechado", "semiaberto", "aberto"] },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "prisao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "inicio": { "$ref": "#/$defs/data" },
+        "fim": { "$ref": "#/$defs/dataNula" },
+        "tipo": { "enum": ["definitiva", "provisoria"] },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "interrupcao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "inicio": { "$ref": "#/$defs/data" },
+        "fim": { "$ref": "#/$defs/dataNula" },
+        "motivo": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "detracao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "inicio": { "$ref": "#/$defs/data" },
+        "fim": { "$ref": "#/$defs/dataNula" },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "remicao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "dias": { "type": "integer", "minimum": 0 },
+        "homologada": { "type": "boolean" },
+        "dataHomologacao": { "$ref": "#/$defs/dataNula" },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "comutacao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "dias": { "type": "integer", "minimum": 1 },
+        "decreto": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "dataDecisao": { "$ref": "#/$defs/data" },
+        "condenacaoId": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "faltaGrave": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "data": { "$ref": "#/$defs/data" },
+        "tipo": { "enum": ["fuga", "outra"] },
+        "dataRecaptura": { "$ref": "#/$defs/dataNula" },
+        "diasPerdidosRemicao": { "type": "integer", "minimum": 0 },
+        "homologada": { "type": "boolean" },
+        "saldosCondenacoes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["origem"],
+            "properties": {
+              "condenacaoId": { "type": "string", "minLength": 1, "pattern": "\\S" },
+              "dias": { "type": "integer", "minimum": 0 },
+              "origem": { "$ref": "#/$defs/origem" }
+            }
+          }
+        },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "progressao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "data": { "$ref": "#/$defs/data" },
+        "dataRequisitoSubjetivo": { "$ref": "#/$defs/dataNula" },
+        "dataBaseReconhecida": { "$ref": "#/$defs/dataNula" },
+        "para": { "enum": ["fechado", "semiaberto", "aberto"] },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "atestadoSEEU": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origem"],
+      "properties": {
+        "dataEmissao": { "$ref": "#/$defs/dataNula" },
+        "progressao": { "$ref": "#/$defs/dataNula" },
+        "livramento": { "$ref": "#/$defs/dataNula" },
+        "termino": { "$ref": "#/$defs/dataNula" },
+        "penaTotalDias": { "type": ["integer", "null"], "minimum": 0 },
+        "penaCumpridaDias": { "type": ["integer", "null"], "minimum": 0 },
+        "remicaoDias": { "type": ["integer", "null"], "minimum": 0 },
+        "detracaoDias": { "type": ["integer", "null"], "minimum": 0 },
+        "origem": { "$ref": "#/$defs/origem" }
+      }
+    },
+    "citacao": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "trecho", "pagina"],
+          "properties": {
+            "status": { "const": "encontrado" },
+            "trecho": { "type": "string", "minLength": 1, "pattern": "\\S" },
+            "pagina": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1 },
+                { "type": "null" }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "trecho", "pagina", "conflitos"],
+          "properties": {
+            "status": { "const": "contraditorio" },
+            "trecho": { "type": "string", "minLength": 1, "pattern": "\\S" },
+            "pagina": {
+              "oneOf": [
+                { "type": "integer", "minimum": 1 },
+                { "type": "null" }
+              ]
+            },
+            "conflitos": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["trecho", "pagina"],
+                "properties": {
+                  "trecho": { "type": "string", "minLength": 1, "pattern": "\\S" },
+                  "pagina": {
+                    "oneOf": [
+                      { "type": "integer", "minimum": 1 },
+                      { "type": "null" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": { "status": { "const": "nao_encontrado" } }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR" data-calculadora="importar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Execução penal — Importar documentos</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="calc.css">
+  <link rel="stylesheet" href="compartilhado.css">
+  <link rel="stylesheet" href="importacao.css">
+  <script src="tema.js"></script>
+  <script src="dados-casos.js"></script>
+  <script src="privacidade-ui.js"></script>
+  <script defer src="compartilhado.js"></script>
+  <script defer src="ui/textos.js"></script>
+  <script defer src="copilot.js"></script>
+  <script defer src="dados/natureza.js"></script>
+  <script defer src="core/leitura-texto.js"></script>
+  <script defer src="core/natureza.js"></script>
+  <script defer src="core/leitores/versoes-documentos.js"></script>
+  <script defer src="core/leitores/calculo-pena.js"></script>
+  <script defer src="core/leitores/seeu-relatorio.js"></script>
+  <script defer src="core/leitores/tjsp-calculo.js"></script>
+  <script defer src="importacao.js"></script>
+  <script defer src="radar-importacoes.js"></script>
+  <script defer src="ui-importacao.js"></script>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="aviso-teste.css">
+</head>
+<body>
+  <div id="aviso-teste">Versão de teste, não oficial. Uso informal para conferência; o resultado é triagem e não substitui o cálculo oficial. Não insira dados de assistidos fora do seu computador.</div>
+  <header class="topo">
+    <div class="marca">
+      <img class="logo-topo" src="icons/logo-dpesp.png" alt="Defensoria Pública de São Paulo">
+      <div class="marca-texto"><h1>Execução penal</h1><p class="sub">Importação local de documentos</p></div>
+    </div>
+    <button class="q-btn q-btn-outline" id="btnTema" type="button">Tema: <span id="rotuloTema">Automático</span></button>
+  </header>
+  <nav class="nav-calc" aria-label="Calculadoras">
+    <a href="index.html" data-calc="execucao">Execução</a>
+    <a href="index.html#projecao" aria-disabled="true" tabindex="-1">Projeção</a>
+    <a href="index.html#conferir-atestado">Conferir atestado</a>
+    <a href="importar.html#importar" data-calc="importar">Importar documentos</a>
+    <a href="radar.html" data-calc="radar">Radar</a>
+    <a href="ferramentas.html" data-calc="ferramentas">Ferramentas</a>
+  </nav>
+  <aside class="privacidade-casos" aria-label="Dados de casos neste navegador">
+    <p class="nota">Os dados ficam só neste navegador e são apagados automaticamente após 7 dias.</p>
+    <button class="q-btn q-btn-outline" id="apagar-dados-casos" type="button">Apagar dados de casos deste computador</button>
+  </aside>
+  <main class="pagina">
+    <p><a href="#radar">Rascunhos de importação</a></p>
+    <section class="painel" id="importar" aria-labelledby="tituloImportar">
+      <h2 class="painel-titulo" id="tituloImportar">Importar PDF ou texto do SEEU / SAJ</h2>
+      <p>Solte PDFs ou envelopes P7Z em qualquer lugar da página ou escolha os arquivos. A leitura é feita neste navegador, sem enviar os documentos.</p>
+      <label class="q-campo" for="arquivosPDF">PDFs ou envelopes assinados P7Z do SEEU ou SAJ (até 20 MB e 200 páginas por arquivo)</label>
+      <input id="arquivosPDF" type="file" accept=".pdf,.p7z,application/pdf,application/pkcs7-mime" multiple>
+      <label class="q-campo" for="textoTela">Texto copiado da tela do processo (Ctrl+A, Ctrl+C, Ctrl+V)</label>
+      <textarea id="textoTela" rows="6" placeholder="Cole o texto aqui."></textarea>
+      <div class="cartao-acoes"><button class="q-btn" id="lerTexto" type="button">Ler texto e conferir</button></div>
+      <p class="nota">Confirme os campos não identificados na resposta abaixo e valide novamente. PDFs escaneados precisam de texto legível ou de extração pelo Copilot.</p>
+      <p class="nota">Confira os dados e as pendências antes de calcular. <a href="#radar">Ver documentos importados</a>. A ordenação do radar por benefícios ainda não está disponível.</p>
+      <p id="estadoImportacao" role="status" aria-live="polite"></p>
+      <ul id="falhasImportacao" role="alert"></ul>
+    </section>
+    <div id="conferencia"></div>
+    <div class="cartao-acoes">
+      <button class="q-btn" id="calcularImportado" type="button" hidden>Calcular com estes dados</button>
+    </div>
+    <section class="painel" aria-labelledby="tituloEntrada">
+      <div class="cartao-cab"><h2 class="painel-titulo" id="tituloEntrada">Dados do cálculo</h2><span id="seloRevisao" class="nota">a conferir</span></div>
+      <p class="nota">Não substitui o atestado nem a decisão judicial.</p>
+      <p class="nota" id="versaoDocumento" aria-live="polite">Modelo de documento não reconhecido — confira todos os campos.</p>
+      <h3>Origem dos campos extraídos</h3>
+      <ul id="rastroCampos"></ul>
+      <div class="cartao-acoes">
+        <button class="q-btn q-btn-outline" id="novoCalculo" type="button">Novo cálculo</button>
+        <button class="q-btn q-btn-outline" id="salvarCalculo" type="button" disabled>Salvar cálculo</button>
+        <label class="q-btn q-btn-outline" for="abrirCalculo">Abrir cálculo salvo</label>
+        <input id="abrirCalculo" type="file" accept=".calcpen,application/json" hidden>
+      </div>
+      <pre id="dadosEntrada">Nenhum dado preenchido.</pre>
+    </section>
+    <section class="painel" id="radar" aria-labelledby="tituloRadar">
+      <h2 class="painel-titulo" id="tituloRadar">Radar — documentos importados</h2>
+      <p class="nota">Cada PDF gera um rascunho local, inclusive quando há pendências. Confira cada um antes de usar. O documento original não é guardado.</p>
+      <ul id="listaRadar"></ul>
+    </section>
+  </main>
+</body>
+</html>

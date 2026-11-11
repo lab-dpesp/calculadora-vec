@@ -1,0 +1,14 @@
+textarea {
+  display: block; width: 100%; max-width: 100%; padding: 12px;
+  background: var(--fundo); color: var(--texto); border: 1px solid var(--borda-campo);
+  border-radius: var(--raio); font: inherit;
+}
+.importar-copilot h2, .importar-copilot p, .importar-copilot label { margin-bottom: 12px; }
+.importar-copilot { overflow-x: auto; }
+.pagina { max-width: 1200px; margin: auto; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+#listaRadar li { margin: 12px 0; }
+#listaRadar button { margin-left: 8px; }
+#estadoImportacao, #falhasImportacao { margin-top: 12px; }
+#falhasImportacao { color: var(--erro); }
+[aria-busy="true"] { cursor: progress; }

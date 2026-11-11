@@ -1,0 +1,36 @@
+.radar-pagina { max-width: 1184px; margin: 0 auto; }
+.painel + .painel { margin-top: 24px; }
+#alteracoes-regras { overflow-wrap: anywhere; }
+.pagina-titulo { margin: 0 0 16px; }
+.pagina-titulo h1 { font-size: 24px; line-height: 1.2; }
+.aviso { margin-bottom: 16px; background: var(--alerta-fundo); }
+.painel-cab { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
+.painel-cab h2 { font-size: 16px; margin-bottom: 6px; }
+.painel-cab p, .senha-controles p, .importar p { color: var(--texto-2); }
+.acoes { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.q-btn.perigo { color: var(--erro); border-color: var(--erro); }
+.senha-controles, .importar { margin-top: 20px; padding: 16px; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--fundo); }
+.senha-controles { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.senha-controles label, .importar label { font-weight: 600; }
+.senha-controles input { max-width: 250px; }
+.senha-controles p { flex-basis: 100%; margin: 0; font-size: 12px; }
+input { min-height: 40px; padding: 8px 10px; border: 1px solid var(--borda-campo); border-radius: var(--raio); background: var(--fundo); color: var(--texto); font: inherit; }
+.importar input { display: block; max-width: 100%; margin-top: 9px; }
+.importar p { margin-bottom: 0; }
+#mensagem { color: var(--primaria); }
+#mensagem.erro { color: var(--erro); }
+.tabela-rolagem { margin-top: 20px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 12px 10px; border-bottom: 1px solid var(--borda); vertical-align: middle; }
+th { color: var(--texto-2); font-size: 12px; }
+.status { display: inline-block; padding: 5px 8px; border-radius: 999px; background: var(--primaria-clara); color: var(--primaria-escura); white-space: nowrap; }
+.status.vencido { background: var(--erro-fundo); color: var(--erro); }
+.sem-falta { display: block; margin-top: 5px; color: var(--texto-2); font-size: 12px; }
+.vazio { padding: 24px; text-align: center; color: var(--texto-2); }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 760px) {
+  .painel-cab { display: block; }
+  .acoes { justify-content: flex-start; margin-top: 14px; }
+  .senha-controles { align-items: stretch; }
+  .senha-controles label, .senha-controles input { flex-basis: 100%; max-width: none; }
+}
