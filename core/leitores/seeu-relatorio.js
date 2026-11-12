@@ -84,6 +84,27 @@
     return Number.isSafeInteger(dias) ? dias : undefined;
   }
 
+  function somarPenas(penas) {
+    if (!Array.isArray(penas) || !penas.every((pena) =>
+      pena && Number.isSafeInteger(pena.anos) && pena.anos >= 0 &&
+      Number.isSafeInteger(pena.meses) && pena.meses >= 0 &&
+      Number.isSafeInteger(pena.dias) && pena.dias >= 0)) return undefined;
+    const anos = penas.reduce((soma, pena) => soma + pena.anos, 0);
+    const meses = penas.reduce((soma, pena) => soma + pena.meses, 0);
+    const dias = penas.reduce((soma, pena) => soma + pena.dias, 0);
+    if (![anos, meses, dias].every(Number.isSafeInteger)) return undefined;
+    const mesesComDias = meses + Math.floor(dias / 30);
+    const totalAnos = anos + Math.floor(mesesComDias / 12);
+    const totalMeses = mesesComDias % 12;
+    const totalDias = dias % 30;
+    return [totalAnos, totalMeses, totalDias].every(Number.isSafeInteger)
+      ? { anos: totalAnos, meses: totalMeses, dias: totalDias } : undefined;
+  }
+
+  function penasIguais(a, b) {
+    return a && b && a.anos === b.anos && a.meses === b.meses && a.dias === b.dias;
+  }
+
   function descreverPena(pena) {
     return `${pena.anos} ano(s), ${pena.meses} mês(es) e ${pena.dias} dia(s)`;
   }
@@ -128,6 +149,7 @@
         }
         return;
       }
+      if (ultimoRotulo === "pena") return;
       if (limpa.includes(":")) {
         const rotulo = normalizar(limpa.slice(0, limpa.indexOf(":")));
         if (ROTULOS_SEEU.has(rotulo) || /^.+\(\d+(?:%|\/\d+)\)$/.test(rotulo)) {
@@ -303,8 +325,8 @@
       if (valor !== undefined) oficial[nome] = valor;
     });
     const datasEmissao = texto.replace(/\r\n?/g, "\n").replace(/\f/g, "\n").split("\n").flatMap((linha) => {
-      const match = linha.match(/\bem:\s*(\d{2}\/\d{2}\/\d{4})\s*$/i);
-      return match ? [{ rotulo: "data de emissao", valor: match[1], trecho: linha.trim() }] : [];
+      const match = linha.match(/\b(?:gerado em:\s*(\d{2}\/\d{2}\/\d{4})|em:\s*(\d{2}\/\d{2}\/\d{4})\s*$)/i);
+      return match ? [{ rotulo: "data de emissao", valor: match[1] || match[2], trecho: linha.trim() }] : [];
     });
     const dataEmissao = unico(datasEmissao, /^data de emissao$/, "Data de emissão", data, "oficial.dataEmissao");
     if (dataEmissao) oficial.dataEmissao = dataEmissao;
@@ -495,6 +517,12 @@
     });
     const { entrada, origens } = leitura.analisarPaginas([{ texto: linhasCanonicas.join("\n"), origem }]);
     entrada.condenacoes = aptas.map((c, i) => ({ ...entrada.condenacoes[i], ...c }));
+    // I22: a leitura genérica marca campos que o leitor dedicado preenche logo acima;
+    // só permanece pendente o campo que continua sem valor depois da mescla.
+    entrada.pendencias = (entrada.pendencias || []).filter((mensagem) => {
+      const campo = /^condenacoes\[(\d+)\]\.(\w+): não identificado com segurança\./.exec(mensagem);
+      return !campo || entrada.condenacoes[Number(campo[1])]?.[campo[2]] === undefined;
+    });
     if (regime) entrada.regimeAtual = regime;
 
     [["termino", "Término"], ["progressao", "Progressão"], ["livramento", "Livramento"]].forEach(([chave, nome]) => {
@@ -610,14 +638,11 @@
     function registrarConferencia(id, situacao, conta) {
       conferencias.push({ id, situacao, conta });
     }
-    const penaCumpridaDias = diasPena(oficial.penaCumprida);
-    const penaRemanescenteDias = diasPena(oficial.penaRemanescente);
-    const penaTotalDias = diasPena(oficial.penaTotal);
-    if ([penaCumpridaDias, penaRemanescenteDias, penaTotalDias].every(Number.isSafeInteger) &&
-        Number.isSafeInteger(penaCumpridaDias + penaRemanescenteDias)) {
+    const penaCumpridaMaisRemanescente = somarPenas([oficial.penaCumprida, oficial.penaRemanescente]);
+    if (penaCumpridaMaisRemanescente && oficial.penaTotal) {
       registrarConferencia("SC-01",
-        penaCumpridaDias + penaRemanescenteDias === penaTotalDias ? "bateu" : "não bateu",
-        `Pena cumprida (${descreverPena(oficial.penaCumprida)}) + pena remanescente (${descreverPena(oficial.penaRemanescente)}) = pena total imposta (${descreverPena(oficial.penaTotal)}).`);
+        penasIguais(penaCumpridaMaisRemanescente, oficial.penaTotal) ? "bateu" : "não bateu",
+        `Pena cumprida (${descreverPena(oficial.penaCumprida)}) + pena remanescente (${descreverPena(oficial.penaRemanescente)}) = ${descreverPena(penaCumpridaMaisRemanescente)}; pena total imposta (${descreverPena(oficial.penaTotal)}).`);
     } else {
       registrarConferencia("SC-01", "não deu para conferir",
         "Pena cumprida + pena remanescente = pena total imposta; faltam valores válidos.");
@@ -626,14 +651,11 @@
     const situacoesConhecidas = condenacoes.every((c) =>
       c.extinto === true || c.suspenso === true || (c.extinto === false && c.suspenso === false));
     const crimesIncluidos = condenacoes.filter((c) => c.extinto === false && c.suspenso === false);
-    const penasCrimesDias = crimesIncluidos.map((c) => diasPena(c.pena));
-    const somaPenasCrimesDias = penasCrimesDias.reduce((soma, dias) => soma + (dias || 0), 0);
-    if (condenacoes.length && oficial.penaTotal && situacoesConhecidas &&
-        penasCrimesDias.length === crimesIncluidos.length && penasCrimesDias.every(Number.isSafeInteger) &&
-        Number.isSafeInteger(somaPenasCrimesDias)) {
+    const somaPenasCrimes = somarPenas(crimesIncluidos.map((c) => c.pena));
+    if (condenacoes.length && oficial.penaTotal && situacoesConhecidas && somaPenasCrimes) {
       registrarConferencia("SC-02",
-        somaPenasCrimesDias === penaTotalDias ? "bateu" : "não bateu",
-        `Penas de ${crimesIncluidos.length} crime(s) não suspenso(s) nem extinto(s) somam ${somaPenasCrimesDias} dia(s); a pena total imposta é ${penaTotalDias} dia(s).`);
+        penasIguais(somaPenasCrimes, oficial.penaTotal) ? "bateu" : "não bateu",
+        `Penas de ${crimesIncluidos.length} crime(s) não suspenso(s) nem extinto(s) somam ${descreverPena(somaPenasCrimes)}; a pena total imposta é ${descreverPena(oficial.penaTotal)}.`);
     } else {
       registrarConferencia("SC-02", "não deu para conferir",
         "Soma das penas dos crimes não suspensos e não extintos = pena total imposta; faltam penas ou situações válidas.");
@@ -828,19 +850,20 @@
       registrarAviso("E102", "possível providência",
         `O relatório informa pena remanescente zerada; confira se a pena consta como cumprida na data do cálculo (${dataBR(dataCalculo)}).`);
     }
+    const situacaoLivramento = normalizar(oficial.livramentoSituacao || "");
+    const livramentoConcedido = /concedid|deferid/.test(situacaoLivramento) ||
+      oficial.incidentes.some((incidente) =>
+        incidenteConcedido(incidente) && /livramento condicional/.test(normalizar(incidente.tipo || ""))) ||
+      oficial.eventos.some((evento) => /livramento condicional/.test(normalizar(evento.motivo || "")));
     if (dataValida(dataCalculo) && oficial.progressao &&
         oficial.progressao < dataCalculo && entrada.regimeAtual &&
         entrada.regimeAtual !== "aberto" &&
         !(oficial.progressoes || []).some((item) => item.data && item.data >= oficial.progressao) &&
-        !(oficial.livramento && oficial.livramento >= oficial.progressao)) {
+        !livramentoConcedido &&
+        !/concedid|deferid/.test(normalizar(oficial.progressaoSituacao || ""))) {
       registrarAviso("E103", "possível providência",
         "Data prevista para a progressão já passou e não há benefício posterior anotado: verificar pedido de progressão (requisito objetivo aparentemente cumprido).");
     }
-    const situacaoLivramento = normalizar(oficial.livramentoSituacao || "");
-    const livramentoConcedido = /concedid|deferid/.test(situacaoLivramento) ||
-      oficial.incidentes.some((incidente) =>
-      incidenteConcedido(incidente) && /livramento condicional/.test(normalizar(incidente.tipo || ""))) ||
-      oficial.eventos.some((evento) => /livramento condicional/.test(normalizar(evento.motivo || "")));
     const vedacaoLivramento = entrada.condenacoes.some((condenacao) => {
       const naturezaCrime = condenacao.natureza;
       const categoriasVedadas = ["hediondo", "hediondo_morte", "feminicidio",
@@ -855,14 +878,29 @@
       registrarAviso("E104", "possível providência",
         "Data prevista para o livramento condicional já passou e não há livramento concedido anotado: verificar possível pedido, sem prejuízo da conferência das vedações (E42).");
     }
-    if (oficial.eventos.some((evento) =>
-      /^interrupcao\b/.test(normalizar(evento.tipo || "")) ||
-      /cumprimento nao iniciado/.test(normalizar([evento.tipo, evento.motivo].join(" "))))) {
+    const eventosComData = oficial.eventos.filter((evento) => evento.data)
+      .slice().sort((a, b) => a.data.localeCompare(b.data));
+    const ultimoEvento = eventosComData.length === oficial.eventos.length
+      ? eventosComData[eventosComData.length - 1]
+      : oficial.eventos[oficial.eventos.length - 1];
+    const eventoInterrompe = (evento) =>
+      /^(?:interrupcao|fuga)\b/.test(normalizar(evento.tipo || "")) ||
+      /cumprimento nao iniciado/.test(normalizar([evento.tipo, evento.motivo].join(" ")));
+    const eventoPrende = (evento) => /^(?:prisao|inicio|reinicio|recaptura)/.test(normalizar(evento.tipo || ""));
+    // E105/I22: interrupção e nova prisão na mesma data indicam custódia contínua; livramento
+    // concedido depois da interrupção também afasta a execução interrompida.
+    const mesmaData = ultimoEvento?.data
+      ? oficial.eventos.filter((evento) => evento.data === ultimoEvento.data) : [];
+    const livramentoDepois = ultimoEvento?.data && oficial.incidentes.some((incidente) =>
+      incidenteConcedido(incidente) && /livramento condicional/.test(normalizar(incidente.tipo || "")) &&
+      (incidente.dataReferencia || incidente.dataDecisao || "") >= ultimoEvento.data);
+    if (ultimoEvento && eventoInterrompe(ultimoEvento) &&
+        !mesmaData.some(eventoPrende) && !livramentoDepois) {
       registrarAviso("E105", "possível providência",
-        "Execução interrompida (fuga ou cumprimento não iniciado): verificar prescrição da pretensão executória. Marco inicial: Tema 788 do STF (CONFERIR).");
+       "Execução interrompida (fuga ou cumprimento não iniciado): verificar prescrição da pretensão executória. Marco inicial: Tema 788 do STF (CONFERIR).");
     }
     const datasSomatorio = oficial.incidentes.filter((incidente) =>
-      /somatorio de penas/.test(normalizar(incidente.tipo || "")))
+      /somatorio de penas/.test(normalizar([incidente.tipo, incidente.complemento].join(" "))))
       .map((incidente) => incidente.dataDecisao || incidente.dataReferencia || incidente.data)
       .filter(Boolean);
     const basesIguais = [oficial.progressaoDataBase, oficial.livramentoDataBase]
@@ -884,9 +922,22 @@
           registrarAviso("E108", "dado a conferir",
             `Condenação ${condenacao.id}: marcação em branco (${[...marcacoes].join(", ")}) pode alterar a fração; confira o relatório.`);
         }
-        if (fracaoUmSexto(condenacao.fracaoProgressao) &&
-            [condenacao.reincidenteComum, condenacao.reincidenteEspecifico,
-              condenacao.violencia, condenacao.resultadoMorte, condenacao.comandoOrcrim].includes(true)) {
+        const reincidenciaMarcada = [condenacao.reincidenteComum,
+          condenacao.reincidenteEspecifico].includes(true);
+        const marcacaoAfetandoProgressao = reincidenciaMarcada ||
+          [condenacao.violencia, condenacao.resultadoMorte, condenacao.comandoOrcrim].includes(true);
+        const fracaoLivramento = normalizar(condenacao.fracaoLivramento || "");
+        const livramentoPrimarioComReincidencia = reincidenciaMarcada &&
+          (/primari/.test(fracaoLivramento) || /\b1\s*\/\s*3\b/.test(fracaoLivramento));
+        const livramentoReincidenteSemReincidencia = !reincidenciaMarcada &&
+          /reincident/.test(fracaoLivramento);
+        const fracaoProgressao = normalizar(condenacao.fracaoProgressao || "");
+        const progressaoPrimarioComReincidencia = reincidenciaMarcada &&
+          /%|por cento/.test(fracaoProgressao) &&
+          (/\b16\s*%/.test(fracaoProgressao) || /primari/.test(fracaoProgressao));
+        if (fracaoUmSexto(condenacao.fracaoProgressao) && marcacaoAfetandoProgressao ||
+            progressaoPrimarioComReincidencia || livramentoPrimarioComReincidencia ||
+            livramentoReincidenteSemReincidencia) {
           registrarAviso("E110", "dado a conferir",
             `Condenação ${condenacao.id}: a fração registrada e as marcações de reincidência ou violência podem não coincidir; confira ambos os dados.`);
         }

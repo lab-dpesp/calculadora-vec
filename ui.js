@@ -2440,10 +2440,26 @@
         semOrigem.textContent = 'O leitor não identificou origens por campo. Confira cada dado no documento.';
         listaOrigens.appendChild(semOrigem);
       }
+      document.getElementById('tituloPendenciasDocumento').textContent =
+        'Pendências de leitura (' + pendencias.length + ')';
+      document.getElementById('tituloOrigensDocumento').textContent =
+        'Origem dos dados no documento (' + Object.keys(item.origens || {}).length + ')';
       document.getElementById('conferenciaDocumento').hidden = false;
+      // Importação direta: o documento já é o caso; calcula na hora, na data de hoje se
+      // nenhuma data foi informada. Tudo continua marcado como dado a conferir.
+      var campoData = document.getElementById('data-calculo');
+      if (!campoData.value.trim()) {
+        var hoje = new Date();
+        campoData.value = [hoje.getDate(), hoje.getMonth() + 1].map(function (n) {
+          return String(n).padStart(2, '0');
+        }).join('/') + '/' + hoje.getFullYear();
+      }
       document.getElementById('estadoDocumento').textContent =
-        'Documento lido neste navegador. Confira os dados e as pendências; o cálculo só começa quando você acionar Calcular.';
-      document.getElementById('status-motor').textContent = 'Documento importado — dados a conferir. Revise as pendências e acione Calcular quando estiver pronto.';
+        'Documento lido e calculado neste navegador. Dados a conferir: veja as pendências e ajuste o que faltar; o resultado se atualiza ao recalcular.';
+      document.getElementById('status-motor').textContent =
+        'Documento importado e calculado — dados a conferir.';
+      formulario.requestSubmit();
+      document.getElementById('resultado').scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
 
     async function lerDocumento(arquivo) {

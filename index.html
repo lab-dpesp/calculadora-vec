@@ -107,17 +107,21 @@
     </section>
     <section class="painel" id="importar-documento" aria-labelledby="titulo-importar-documento">
       <h2 class="painel-titulo" id="titulo-importar-documento">Importar documento</h2>
-      <p>Escolha um PDF ou P7Z do SEEU ou TJSP/SAJ, ou solte o arquivo aqui. A leitura é local; confira os dados e as pendências antes de calcular.</p>
+      <p>Escolha ou solte aqui o PDF (ou P7Z) do SEEU ou do TJSP/SAJ. A leitura e o cálculo são feitos neste navegador e o resultado sai na hora, sempre como dado a conferir.</p>
       <label class="q-campo" for="arquivoDocumento">PDF ou envelope P7Z (até 20 MB e 200 páginas)</label>
       <input id="arquivoDocumento" type="file" accept=".pdf,.p7z,application/pdf,application/pkcs7-mime" hidden>
       <button class="q-btn q-btn-outline" id="selecionarDocumento" type="button">Importar documento</button>
       <p id="estadoDocumento" role="status" aria-live="polite"></p>
       <div id="conferenciaDocumento" hidden>
         <p id="origemDocumento" class="nota"></p>
-        <h3>Pendências de leitura</h3>
-        <ul id="pendenciasDocumento"></ul>
-        <h3>Origem dos dados</h3>
-        <ul id="origensDocumento"></ul>
+        <details class="recolhivel" id="detalhesPendenciasDocumento">
+          <summary id="tituloPendenciasDocumento">Pendências de leitura</summary>
+          <ul id="pendenciasDocumento"></ul>
+        </details>
+        <details class="recolhivel" id="detalhesOrigensDocumento">
+          <summary id="tituloOrigensDocumento">Origem dos dados no documento</summary>
+          <ul id="origensDocumento"></ul>
+        </details>
       </div>
     </section>
     <section class="painel caso-unico" aria-labelledby="titulo-caso">

@@ -595,3 +595,4 @@ tr.ajustada td:first-child { box-shadow: inset 3px 0 0 var(--alerta); }
   .resumo-juros { padding-left: 0; }
   .alterar-juros { margin-left: 16px; }
 }
+#resultado { scroll-margin-top: 6rem; }
